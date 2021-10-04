@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="test.MainPage">
+
+    <StackLayout x:Name="MainLayout">
+        <Entry x:Name="Stock"></Entry>
+        <Button x:Name="Add" FontSize="16" Text="Add" Clicked="Add_Clicked"></Button>
+
+        <ListView x:Name="itemListView" RowHeight="65" HorizontalOptions="Fill"
+
+                          VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
+
+                          ItemSelected="Handle_ItemSelected"
+
+                          BackgroundColor="Transparent">
+
+            <ListView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <ViewCell>
+
+                        <ViewCell.ContextActions>
+
+                            <MenuItem CommandParameter="{Binding shortName}" Text="Delete" IsDestructive="true"/>
+
+                        </ViewCell.ContextActions>
+                        
+                        <StackLayout Orientation="Vertical" Padding="5">
+
+                            <StackLayout Orientation="Vertical">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+
+                                    </Grid.ColumnDefinitions>
+                                    
+                                
+                                <Label Text="{Binding shortName, StringFormat='Name: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0">
+
+                                </Label>
+
+                                    <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="0" Grid.Row="1">
+                                    </Label>
+                                    <Label Text="{Binding bid}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1">
+                                        </Label>
+                                    
+                                    
+                                    <Label x:Name="ChangePct" Text="{Binding change, StringFormat='Change: {0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
+                                </Label>
+
+                                </Grid>
+                            </StackLayout>
+
+                        </StackLayout>
+
+                    </ViewCell>
+
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
