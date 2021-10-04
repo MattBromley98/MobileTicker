@@ -42,7 +42,7 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
 
                                     </Grid.ColumnDefinitions>
                                     
@@ -53,7 +53,7 @@
 
                                     <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="0" Grid.Row="1">
                                     </Label>
-                                    <Label Text="{Binding bid}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1">
+                                        <Label Text="{Binding bid}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1"  HorizontalTextAlignment="End">
                                         </Label>
                                     
                                     
