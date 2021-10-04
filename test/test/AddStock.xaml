@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="test.AddStock">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add"
+                 Clicked="Add_Item"
+                 Order="Primary"
+                 Priority="1" />
+
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+
+
+        <StackLayout>
+            <Label Text="Add a symbol to portfolio:"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Ticker Symbol:"></Label>
+            <Entry x:Name="Ticker" HorizontalOptions="Fill"></Entry>
+            <Label Text="Amount of Shares Owned:"></Label>
+            <Entry x:Name="Amount" HorizontalOptions="Fill"></Entry>
+            <Label Text="Breakeven Price:"></Label>
+            <Entry x:Name="Breakeven" HorizontalOptions="Fill"></Entry>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
