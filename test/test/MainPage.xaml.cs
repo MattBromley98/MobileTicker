@@ -36,10 +36,14 @@ namespace test
 
             */
             InitializeComponent();
-            itemListView.ItemsSource = App.StockList;
+            OnAppearing();
         }
 
-
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            itemListView.ItemsSource = await App.DataBase.GetStocksAsync();
+        }
 
         public void Add_Clicked(object sender, EventArgs e)
         {

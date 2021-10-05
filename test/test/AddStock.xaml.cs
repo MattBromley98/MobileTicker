@@ -9,6 +9,7 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using System.Net;
 using Xamarin.Essentials;
+using SQLite;
 
 namespace test
 {
@@ -20,7 +21,7 @@ namespace test
             InitializeComponent();
         }
 
-        public void Add_Item(object sender, EventArgs e)
+        async void Add_Item(object sender, EventArgs e)
         {
             string url = "";
             string StockName = "";
@@ -29,8 +30,8 @@ namespace test
             url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={StockName}";
 
             string jsonData = new WebClient().DownloadString(url);
-            Root newStock = JsonConvert.DeserializeObject<Root>(jsonData);
-            newStock.quoteResponse.result[0].change = ((newStock.quoteResponse.result[0].ask - newStock.quoteResponse.result[0].regularMarketPreviousClose) / newStock.quoteResponse.result[0].ask) * 100;
+
+            Root newStock = await Populate_Item(jsonData);
             if (newStock.quoteResponse.result[0].change > 0)
             {
                 newStock.quoteResponse.result[0].color = "Green";
@@ -39,11 +40,19 @@ namespace test
             {
                 newStock.quoteResponse.result[0].color = "Red";
             }
-
-            App.StockList.Add(newStock.quoteResponse.result[0]);
-            App.Current.MainPage.Navigation.PushAsync(new MainPage());
+            if (!string.IsNullOrWhiteSpace(newStock.quoteResponse.result[0].shortName))
+            {
+                await App.DataBase.SaveStockAsync(newStock.quoteResponse.result[0]);
+            }
+            await Navigation.PopAsync();
+            await Navigation.PushAsync(new MainPage());
         }
-
+        async Task<Root> Populate_Item(string jsonData)
+        {
+            Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
+            inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
+            return inStock;
+        }
     }
 
 

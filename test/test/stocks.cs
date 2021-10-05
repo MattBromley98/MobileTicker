@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SQLite;
 using Xamarin.Forms;
 
 namespace test
 {
     public class Result
         {
+            [PrimaryKey, AutoIncrement]
+            public int ID { get; set; }
             public string language { get; set; }
             public string region { get; set; }
             public string quoteType { get; set; }
@@ -23,7 +25,7 @@ namespace test
             public double regularMarketDayHigh { get; set; }
             public string regularMarketDayRange { get; set; }
             public double regularMarketDayLow { get; set; }
-            public int regularMarketVolume { get; set; }
+            public double regularMarketVolume { get; set; }
             public double regularMarketPreviousClose { get; set; }
             public double bid { get; set; }
             public double ask { get; set; }
@@ -32,8 +34,8 @@ namespace test
             public string fullExchangeName { get; set; }
             public string financialCurrency { get; set; }
             public double regularMarketOpen { get; set; }
-            public int averageDailyVolume3Month { get; set; }
-            public int averageDailyVolume10Day { get; set; }
+            public double averageDailyVolume3Month { get; set; }
+            public double averageDailyVolume10Day { get; set; }
             public double fiftyTwoWeekLowChange { get; set; }
             public double fiftyTwoWeekLowChangePercent { get; set; }
             public string fiftyTwoWeekRange { get; set; }
