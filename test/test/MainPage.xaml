@@ -14,9 +14,11 @@
 
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-    <StackLayout x:Name="MainLayout">
 
-        <ListView x:Name="itemListView" RowHeight="65" HorizontalOptions="Fill"
+
+        <StackLayout x:Name="MainLayout">
+
+            <ListView x:Name="itemListView" RowHeight="65" HorizontalOptions="Fill"
 
                           VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
 
@@ -24,54 +26,55 @@
 
                           BackgroundColor="Transparent">
 
-            <ListView.ItemTemplate>
+                <ListView.ItemTemplate>
 
-                <DataTemplate>
+                    <DataTemplate>
 
-                    <ViewCell>
+                        <ViewCell>
 
-                        <ViewCell.ContextActions>
+                            <ViewCell.ContextActions>
 
-                            <MenuItem CommandParameter="{Binding shortName}" Text="Delete" IsDestructive="true"/>
+                                <MenuItem CommandParameter="{Binding shortName}" Text="Delete" IsDestructive="true"/>
 
-                        </ViewCell.ContextActions>
-                        
-                        <StackLayout Orientation="Vertical" Padding="5">
+                            </ViewCell.ContextActions>
 
-                            <StackLayout Orientation="Vertical">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
+                            <StackLayout Orientation="Vertical" Padding="5">
+
+                                <StackLayout Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
 
-                                    </Grid.ColumnDefinitions>
-                                    
-                                
-                                <Label Text="{Binding shortName, StringFormat='Name: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0">
+                                        </Grid.ColumnDefinitions>
 
-                                </Label>
 
-                                    <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="0" Grid.Row="1">
-                                    </Label>
-                                        <Label Text="{Binding regularMarketPreviousClose}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1"  HorizontalTextAlignment="End">
+                                        <Label Text="{Binding shortName, StringFormat='Name: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0">
+
                                         </Label>
-                                    
-                                    
-                                    <Label x:Name="ChangePct" Text="{Binding change, StringFormat='Change: {0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
-                                </Label>
 
-                                </Grid>
+                                        <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="0" Grid.Row="1">
+                                        </Label>
+                                        <Label Text="{Binding ask}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1"  HorizontalTextAlignment="End">
+                                        </Label>
+
+
+                                        <Label x:Name="ChangePct" Text="{Binding change, StringFormat='Change: {0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
+                                        </Label>
+
+                                    </Grid>
+                                </StackLayout>
+
                             </StackLayout>
 
-                        </StackLayout>
+                        </ViewCell>
 
-                    </ViewCell>
+                    </DataTemplate>
 
-                </DataTemplate>
+                </ListView.ItemTemplate>
 
-            </ListView.ItemTemplate>
+            </ListView>
 
-        </ListView>
-    </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

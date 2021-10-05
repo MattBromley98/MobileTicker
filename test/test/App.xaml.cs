@@ -28,7 +28,6 @@ namespace test
         {
             
             InitializeComponent();
-
             MainPage = new NavigationPage(new test.MainPage());
         }
 

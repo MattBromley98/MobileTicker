@@ -13,16 +13,26 @@ using SQLite;
 
 namespace test
 {
+    [QueryProperty(nameof(inputId), nameof(inputId))]
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddStock : ContentPage
     {
         public AddStock()
         {
             InitializeComponent();
+            BindingContext = new Result();
+        }
+        public string inputId
+        {
+            set
+            {
+                Load_Stock(value);
+            }
         }
 
         async void Add_Item(object sender, EventArgs e)
         {
+
             string url = "";
             string StockName = "";
             //What to execute when the Add Button is pressed on the AddStock page
@@ -52,6 +62,20 @@ namespace test
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
             inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
             return inStock;
+        }
+
+        async void Load_Stock(string itemID)
+        {
+            try
+            {
+                int id = Convert.ToInt32(itemID);
+                Result stock = await App.DataBase.GetStockAsync(id);
+                BindingContext = stock;
+            }
+            catch
+            {
+                Console.WriteLine($"Failed to load Stock ID {itemID}");
+            }
         }
     }
 

@@ -17,7 +17,7 @@
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
             <Label Text="Ticker Symbol:"></Label>
-            <Entry x:Name="Ticker" HorizontalOptions="Fill"></Entry>
+            <Entry x:Name="Ticker" Text="{Binding symbol}" HorizontalOptions="Fill"></Entry>
             <Label Text="Amount of Shares Owned:"></Label>
             <Entry x:Name="Amount" HorizontalOptions="Fill"></Entry>
             <Label Text="Breakeven Price:"></Label>
