@@ -21,10 +21,11 @@
             <ListView x:Name="itemListView" RowHeight="65" HorizontalOptions="Fill"
 
                           VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
-
+                      
                           ItemSelected="Handle_ItemSelected"
 
                           BackgroundColor="Transparent">
+                
 
                 <ListView.ItemTemplate>
 
@@ -48,7 +49,6 @@
 
                                         </Grid.ColumnDefinitions>
 
-
                                         <Label Text="{Binding shortName, StringFormat='Name: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0">
 
                                         </Label>
@@ -63,6 +63,8 @@
                                         </Label>
 
                                     </Grid>
+
+
                                 </StackLayout>
 
                             </StackLayout>

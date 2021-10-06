@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System.Timers;
+using System.Collections.ObjectModel;
 
 namespace test
 {
@@ -17,40 +18,34 @@ namespace test
     {
         private string stockName = "";
         private string url = "";
+        public List<Result> listItems = new List<Result>();
+        
         public MainPage()
         {
-            /*
-            url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=MSFT";
-            string jsonData = new WebClient().DownloadString(url);
-            Root newStock = JsonConvert.DeserializeObject<Root>(jsonData);
-            newStock.quoteResponse.result[0].change = ((newStock.quoteResponse.result[0].ask - newStock.quoteResponse.result[0].regularMarketPreviousClose)/ newStock.quoteResponse.result[0].ask) * 100;
-            //Calculate the colour for the Pct Change (Will Change this to map to relative pct change soon)
-            if (newStock.quoteResponse.result[0].change > 0)
-            {
-                newStock.quoteResponse.result[0].color = "Green";
-            }
-            else
-            {
-                newStock.quoteResponse.result[0].color = "Red";
-            }
-            App.StockList.Add(newStock.quoteResponse.result[0]);
-            //MainLayout.Children.Add(listView);
-
-            */
+            
             InitializeComponent();
             OnAppearing();
-            
             Timer t = new Timer(20000);
             t.AutoReset = true;
             t.Elapsed += new ElapsedEventHandler(Update_Tickers);
             t.Start();
         }
-
+           async void Populate_List()
+        {
+            
+        }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            itemListView.ItemsSource = await App.DataBase.GetStocksAsync();
+            
+            listItems = await App.DataBase.GetStocksAsync();
+            App.listItemsDisplay = new ObservableCollection<Result>(listItems);
+            itemListView.ItemsSource = App.listItemsDisplay;
+            /*
+            itemListView.GroupDisplayBinding = new Binding("sector");
+            itemListView.IsGroupingEnabled = true;
+            */
         }
 
         async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -113,7 +108,7 @@ namespace test
 
         async void Update_Tickers(Object source, ElapsedEventArgs e)
         {
-            List<Result> listItems = await App.DataBase.GetStocksAsync();
+            listItems = await App.DataBase.GetStocksAsync();
             int maxid = listItems.Max(t => t.ID);
 
             //Console.WriteLine(listItems.ToString());
@@ -138,6 +133,7 @@ namespace test
                 }
 
                 await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
+                App.listItemsDisplay[i] = newData.quoteResponse.result[0];
             }
         }
 
@@ -145,8 +141,18 @@ namespace test
         {
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
             inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
+            //Fix the pct change to 0 if the market is not open yet
+            if (inStock.quoteResponse.result[0].change <= -50)
+            {
+                inStock.quoteResponse.result[0].change = 0;
+                inStock.quoteResponse.result[0].ask = inStock.quoteResponse.result[0].regularMarketPreviousClose;
+            }
             return inStock;
         }
+        
+        async void example_ticker(string ticker)
+        {
 
+        }
     }
 }

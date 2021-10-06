@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using SQLite;
@@ -9,7 +10,7 @@ namespace test
 {
     public class Result
         {
-            [PrimaryKey, AutoIncrement]
+        [PrimaryKey, AutoIncrement]
             public int ID { get; set; }
             public string language { get; set; }
             public string region { get; set; }
@@ -83,12 +84,15 @@ namespace test
             public string marketState { get; set; }
             public string displayName { get; set; }
             public string symbol { get; set; }
+            public string sector { get; set; }
 
             public double change { get; set; }
             public string color { get; set; }
-        }
 
-        public class QuoteResponse
+
+
+    }
+    public class QuoteResponse
         {
             public List<Result> result { get; set; }
             public object error { get; set; }
@@ -99,5 +103,5 @@ namespace test
             public QuoteResponse quoteResponse { get; set; }
         }
 
+}
 
-    }

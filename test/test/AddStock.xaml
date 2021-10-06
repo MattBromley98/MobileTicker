@@ -22,6 +22,8 @@
             <Entry x:Name="Amount" HorizontalOptions="Fill"></Entry>
             <Label Text="Breakeven Price:"></Label>
             <Entry x:Name="Breakeven" HorizontalOptions="Fill"></Entry>
+            <Label Text="Sector:"></Label>
+            <Picker x:Name="Type" HorizontalOptions="Fill"></Picker>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
