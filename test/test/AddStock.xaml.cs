@@ -15,10 +15,11 @@ namespace test
 {
     [QueryProperty(nameof(inputId), nameof(inputId))]
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    
+
     public partial class AddStock : ContentPage
     {
         public List<String> SectorList = new List<string>();
+        public bool isBusy = false;
         public AddStock()
         {
             InitializeComponent();
@@ -57,7 +58,8 @@ namespace test
 
         async void Add_Item(object sender, EventArgs e)
         {
-
+            if (isBusy == false) {
+            isBusy = true;
             string url = "";
             string StockName = "";
             //What to execute when the Add Button is pressed on the AddStock page
@@ -90,7 +92,9 @@ namespace test
                 App.listItemsDisplay.Add(newStock.quoteResponse.result[0]);
             }
             await Navigation.PopAsync();
+            isBusy = false;
             await Navigation.PushAsync(new MainPage());
+            }
         }
         async Task<Root> Populate_Item(string jsonData)
         {

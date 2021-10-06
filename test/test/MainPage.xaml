@@ -22,7 +22,7 @@
 
                           VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
                       
-                          ItemSelected="Handle_ItemSelected"
+                          ItemTapped="Handle_ItemSelected"
 
                           BackgroundColor="Transparent">
                 

@@ -18,13 +18,21 @@ namespace test
     {
         private string stockName = "";
         private string url = "";
+        private Result selectedStock = new Result();
         public List<Result> listItems = new List<Result>();
-        
+        ToolbarItem item = new ToolbarItem
+        {
+            Text = "Delete",
+            Order = ToolbarItemOrder.Primary,
+            Priority = 1,
+        };
         public MainPage()
         {
             
             InitializeComponent();
             OnAppearing();
+            this.ToolbarItems.Add(item);
+            item.IsEnabled = false;
             Timer t = new Timer(20000);
             t.AutoReset = true;
             t.Elapsed += new ElapsedEventHandler(Update_Tickers);
@@ -48,48 +56,32 @@ namespace test
             */
         }
 
-        async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        void Handle_ItemSelected(object sender, ItemTappedEventArgs e)
         {
             /*
              * Function which calls the Info Page to edit a Stock
              */
-            if (e.CurrentSelection != null)
+            if (e.Item != null)
             {
-                Result stock = (Result)e.CurrentSelection;
-                await Shell.Current.GoToAsync($"{nameof(AddStock)}?{nameof(AddStock.inputId)}={stock.ID}={stock.ID.ToString()}");
+                //Check if the toolbar is already displayed
+
+                // "this" refers to a Page object
+                    item.IsEnabled = true;
+                    Result stock = (Result)e.Item;
+                    selectedStock = stock;
+                    item.Clicked += Delete_Stock;
+                    
+
+                
             }
         }
 
-        public void Add_Clicked(object sender, EventArgs e)
+        async void Delete_Stock(object sender, EventArgs e)
         {
-             /*
-            stockname = stock.text;
-            url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-us&region=us&corsdomain=finance.yahoo.com&symbols={stockname}";
-            string jsondata = new webclient().downloadstring(url);
-            root newstock = jsonconvert.deserializeobject<root>(jsondata);
-            newstock.quoteresponse.result[0].change = ((newstock.quoteresponse.result[0].ask - newstock.quoteresponse.result[0].regularmarketpreviousclose)/ newstock.quoteresponse.result[0].ask) * 100;
-            if (newstock.quoteresponse.result[0].change > 0)
-            {
-                newstock.quoteresponse.result[0].color = "green";
-            }
-            else
-            {
-                newstock.quoteresponse.result[0].color = "red";
-            }
-            stockfinal.add(newstock.quoteresponse.result[0]);
-            itemlistview.beginrefresh();
-            itemlistview.itemssource = null;
-            itemlistview.itemssource = stockfinal;
-            itemlistview.endrefresh();
-             */
-        }
-
-        async void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-
-        {
-
-            //Survey selected
-
+            App.listItemsDisplay.Remove(selectedStock);
+            await App.DataBase.DeleteStockAsync(selectedStock);
+            item.IsEnabled = false;
+            
         }
 
         void Goto_Add(object sender, EventArgs e)
@@ -98,42 +90,42 @@ namespace test
         }
 
 
-        void Handle_Delete_Clicked(object sender, SelectedItemChangedEventArgs e)
-
-        {
-
-            //Survey selected
-
-        }
 
         async void Update_Tickers(Object source, ElapsedEventArgs e)
         {
             listItems = await App.DataBase.GetStocksAsync();
-            int maxid = listItems.Max(t => t.ID);
-
-            //Console.WriteLine(listItems.ToString());
-            var DatabaseLength = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "stocks.db3")).Length;
-            for (int i = 0; i < maxid;  i++)
+            try
             {
+                int maxid = listItems.Max(t => t.ID);
 
-                string symbolname = listItems[i].symbol;
-                int IDNumber = listItems[i].ID;
-                Console.WriteLine($"Updating symbol: {symbolname}");
-                url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={symbolname}";
-                string jsonData = new WebClient().DownloadString(url);
-                Root newData = await Populate_Item(jsonData);
-                newData.quoteResponse.result[0].ID = IDNumber;
-                if (newData.quoteResponse.result[0].change > 0)
+                //Console.WriteLine(listItems.ToString());
+                var DatabaseLength = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "stocks.db3")).Length;
+                for (int i = 0; i < maxid; i++)
                 {
-                    newData.quoteResponse.result[0].color = "Green";
-                }
-                else
-                {
-                    newData.quoteResponse.result[0].color = "Red";
-                }
 
-                await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
-                App.listItemsDisplay[i] = newData.quoteResponse.result[0];
+                    string symbolname = listItems[i].symbol;
+                    int IDNumber = listItems[i].ID;
+                    
+                    url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={symbolname}";
+                    string jsonData = new WebClient().DownloadString(url);
+                    Root newData = await Populate_Item(jsonData);
+                    newData.quoteResponse.result[0].ID = IDNumber;
+                    if (newData.quoteResponse.result[0].change > 0)
+                    {
+                        newData.quoteResponse.result[0].color = "Green";
+                    }
+                    else
+                    {
+                        newData.quoteResponse.result[0].color = "Red";
+                    }
+
+                    await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
+                    App.listItemsDisplay[i] = newData.quoteResponse.result[0];
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Error updating a symbol...\n");
             }
         }
 
