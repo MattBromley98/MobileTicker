@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using SkiaSharp;
 using SQLite;
 using Xamarin.Forms;
 
@@ -104,5 +105,33 @@ namespace test
             public QuoteResponse quoteResponse { get; set; }
         }
 
+    public class Sectors
+    {
+        public string Label { get; set; }
+        public int ValueLabel { get; set; }
+        public SKColor Color { get; set; }
+
+    }
+
+    public class ListSectors : List<Sectors>
+    {
+        public ListSectors()
+        {
+            sectordata = new List<Sectors>();
+            SectorNames = new ObservableCollection<string>();
+        }
+        
+        public List<Sectors> sectordata { get; set; }
+        
+        public ObservableCollection<String> SectorNames { get; set; }
+        public ObservableCollection<String> Retrieve_Items()
+        {
+            foreach (Sectors i in sectordata)
+            {
+                SectorNames.Add(i.Label);
+            };
+            return SectorNames;
+        }
+    }
 }
 

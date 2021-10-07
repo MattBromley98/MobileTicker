@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Net;
 using Xamarin.Essentials;
 using SQLite;
+using System.Collections.ObjectModel;
 
 namespace test
 {
@@ -18,29 +19,16 @@ namespace test
 
     public partial class AddStock : ContentPage
     {
-        public List<String> SectorList = new List<string>();
         public bool isBusy = false;
+        private ObservableCollection<String> sectorNames = new ObservableCollection<String>();
         public AddStock()
         {
+
             InitializeComponent();
+            sectorNames = App.SectorData.Retrieve_Items();
+            Type.ItemsSource = sectorNames;
             //Add a list of sectors for the user to choose
-            SectorList.Add("Air Travel");
-            SectorList.Add("Basic Materials");
-            SectorList.Add("Communication Services");
-            SectorList.Add("Conglomerates");
-            SectorList.Add("Consumer Cyclical");
-            SectorList.Add("Consumer Defensive");
-            SectorList.Add("Energy");
-            SectorList.Add("Financial");
-            SectorList.Add("Financial Services");
-            SectorList.Add("Healthcare");
-            SectorList.Add("Industrial Goods");
-            SectorList.Add("Industrials");
-            SectorList.Add("Real Estate");
-            SectorList.Add("Services");
-            SectorList.Add("Technology");
-            SectorList.Add("Utilities");
-            Type.ItemsSource = SectorList;
+
         }
         public string inputId
         {
@@ -88,15 +76,31 @@ namespace test
                         await App.DataBase.SaveStockAsync(newStock.quoteResponse.result[0]);
                         App.listItemsDisplay.Add(newStock.quoteResponse.result[0]);
                     }
-                    await Navigation.PopAsync();
-                    isBusy = false;
-                    await Navigation.PushAsync(new MainPage());
+                    //Find the Chosen Sector
+                    try
+                    {
+                        int SectorLocation = sectorNames.IndexOf(Type.Items[Type.SelectedIndex]);
+                        App.SectorData.sectordata[SectorLocation].ValueLabel += 1;
+                        await Navigation.PopAsync();
+                        isBusy = false;
+                        await Navigation.PushAsync(new MainPage());
+                    }
+                    catch
+                    {
+                        await DisplayAlert("Sector Name","Please ensure to select a sector name","OK");
+                        await Navigation.PopAsync();
+                        isBusy = false;
+                        await Navigation.PushAsync(new MainPage());
+                    }
+
+
                 }
             }
             catch
             {
                 //If stock cant be added show a Error Message
                 await DisplayAlert("Error adding Symbol", "This ticker symbol can not be found from Yahoo Finance", "OK");
+                isBusy = false;
             }
         }
         async Task<Root> Populate_Item(string jsonData)
