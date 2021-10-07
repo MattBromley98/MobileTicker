@@ -41,12 +41,6 @@ namespace test
             SectorList.Add("Technology");
             SectorList.Add("Utilities");
             Type.ItemsSource = SectorList;
-            
-            
-
-
-            
-            
         }
         public string inputId
         {
@@ -58,53 +52,65 @@ namespace test
 
         async void Add_Item(object sender, EventArgs e)
         {
-            if (isBusy == false) {
-            isBusy = true;
-            string url = "";
-            string StockName = "";
-            //What to execute when the Add Button is pressed on the AddStock page
-            StockName = Ticker.Text;
-            url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={StockName}";
-
-            string jsonData = new WebClient().DownloadString(url);
-
-            Root newStock = await Populate_Item(jsonData);
             try
             {
-                newStock.quoteResponse.result[0].sector = Type.Items[Type.SelectedIndex];
+                if (isBusy == false)
+                {
+                    isBusy = true;
+                    string url = "";
+                    string StockName = "";
+                    //What to execute when the Add Button is pressed on the AddStock page
+                    StockName = Ticker.Text;
+                    url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={StockName}";
+
+                    string jsonData = new WebClient().DownloadString(url);
+
+                    Root newStock = await Populate_Item(jsonData);
+                    try
+                    {
+                        newStock.quoteResponse.result[0].sector = Type.Items[Type.SelectedIndex];
+                    }
+                    catch
+                    {
+                        newStock.quoteResponse.result[0].sector = "";
+                    }
+
+                    if (newStock.quoteResponse.result[0].change > 0)
+                    {
+                        newStock.quoteResponse.result[0].color = "Green";
+                    }
+                    else
+                    {
+                        newStock.quoteResponse.result[0].color = "Red";
+                    }
+                    if (!string.IsNullOrWhiteSpace(newStock.quoteResponse.result[0].shortName))
+                    {
+                        await App.DataBase.SaveStockAsync(newStock.quoteResponse.result[0]);
+                        App.listItemsDisplay.Add(newStock.quoteResponse.result[0]);
+                    }
+                    await Navigation.PopAsync();
+                    isBusy = false;
+                    await Navigation.PushAsync(new MainPage());
+                }
             }
             catch
             {
-                newStock.quoteResponse.result[0].sector = "";
-            }
-            
-            if (newStock.quoteResponse.result[0].change > 0)
-            {
-                newStock.quoteResponse.result[0].color = "Green";
-            }
-            else
-            {
-                newStock.quoteResponse.result[0].color = "Red";
-            }
-            if (!string.IsNullOrWhiteSpace(newStock.quoteResponse.result[0].shortName))
-            {
-                await App.DataBase.SaveStockAsync(newStock.quoteResponse.result[0]);
-                App.listItemsDisplay.Add(newStock.quoteResponse.result[0]);
-            }
-            await Navigation.PopAsync();
-            isBusy = false;
-            await Navigation.PushAsync(new MainPage());
+                //If stock cant be added show a Error Message
+                await DisplayAlert("Error adding Symbol", "This ticker symbol can not be found from Yahoo Finance", "OK");
             }
         }
         async Task<Root> Populate_Item(string jsonData)
         {
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
             inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
+            
             if (inStock.quoteResponse.result[0].change <= -50)
             {
                 inStock.quoteResponse.result[0].change = 0;
                 inStock.quoteResponse.result[0].ask = inStock.quoteResponse.result[0].regularMarketPreviousClose;
             }
+            string priceinString = inStock.quoteResponse.result[0].ask.ToString();
+            inStock.quoteResponse.result[0].outputPrice = priceinString + " " + inStock.quoteResponse.result[0].currency;
             return inStock;
         }
 

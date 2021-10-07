@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:test"
+       Title=""
+       x:Class="test.AppShell"
+       BackgroundColor="{DynamicResource WindowBackgroundColor}">
+    <Shell.Resources>
+        <Style TargetType="TabBar">
+            <Setter Property="Shell.TabBarBackgroundColor" Value="DarkSlateGray" />
+            <Setter Property="Shell.TabBarDisabledColor" Value="{DynamicResource TabBarDisabledColor}"/>
+            <Setter Property="Shell.TabBarForegroundColor" Value="LightGray" />
+            <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource TabBarUnselectedColor}" />
+        </Style>
+    </Shell.Resources>
+
+    <TabBar>
+        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" Title="Portfolio">
+        </ShellContent>
+        <ShellContent ContentTemplate="{DataTemplate views:SectorInfo}" Route="SectorInfo" Title="Sectors">
+        </ShellContent>
+    </TabBar>
+</Shell>

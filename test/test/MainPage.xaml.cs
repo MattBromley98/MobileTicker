@@ -82,6 +82,8 @@ namespace test
             await App.DataBase.DeleteStockAsync(selectedStock);
             item.IsEnabled = false;
             
+            await Navigation.PushAsync(new MainPage(),false);
+            await Navigation.PopAsync();
         }
 
         void Goto_Add(object sender, EventArgs e)
@@ -139,6 +141,8 @@ namespace test
                 inStock.quoteResponse.result[0].change = 0;
                 inStock.quoteResponse.result[0].ask = inStock.quoteResponse.result[0].regularMarketPreviousClose;
             }
+            string priceinString = inStock.quoteResponse.result[0].ask.ToString();
+            inStock.quoteResponse.result[0].outputPrice = priceinString + " " + inStock.quoteResponse.result[0].currency;
             return inStock;
         }
         

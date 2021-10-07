@@ -5,6 +5,7 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Tickers"
              x:Class="test.MainPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add"
@@ -13,11 +14,9 @@
                  Priority="1" />
 
     </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-
-
         <StackLayout x:Name="MainLayout">
-
             <ListView x:Name="itemListView" RowHeight="65" HorizontalOptions="Fill"
 
                           VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
@@ -25,7 +24,7 @@
                           ItemTapped="Handle_ItemSelected"
 
                           BackgroundColor="Transparent">
-                
+
 
                 <ListView.ItemTemplate>
 
@@ -55,7 +54,7 @@
 
                                         <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="0" Grid.Row="1">
                                         </Label>
-                                        <Label Text="{Binding ask}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1"  HorizontalTextAlignment="End">
+                                        <Label Text="{Binding outputPrice}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1"  HorizontalTextAlignment="End">
                                         </Label>
 
 
@@ -77,6 +76,10 @@
 
             </ListView>
 
+
+
+
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

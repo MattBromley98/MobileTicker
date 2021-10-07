@@ -28,7 +28,8 @@ namespace test
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new test.MainPage());
+            MainPage = new AppShell();
+            // MainPage = new NavigationPage(new test.MainPage());
         }
 
 

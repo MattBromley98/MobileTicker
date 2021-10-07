@@ -18,6 +18,7 @@ namespace test
             public string quoteSourceName { get; set; }
             public bool triggerable { get; set; }
             public string currency { get; set; }
+            public string outputPrice { get; set; }
             public long firstTradeDateMilliseconds { get; set; }
             public double regularMarketChange { get; set; }
             public double regularMarketChangePercent { get; set; }
