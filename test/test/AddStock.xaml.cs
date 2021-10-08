@@ -54,14 +54,7 @@ namespace test
                     string jsonData = new WebClient().DownloadString(url);
 
                     Root newStock = await Populate_Item(jsonData);
-                    try
-                    {
-                        newStock.quoteResponse.result[0].sector = Type.Items[Type.SelectedIndex];
-                    }
-                    catch
-                    {
-                        newStock.quoteResponse.result[0].sector = "";
-                    }
+
 
                     if (newStock.quoteResponse.result[0].change > 0)
                     {
@@ -71,17 +64,12 @@ namespace test
                     {
                         newStock.quoteResponse.result[0].color = "Red";
                     }
-                    if (!string.IsNullOrWhiteSpace(newStock.quoteResponse.result[0].shortName))
-                    {
-                        await App.DataBase.SaveStockAsync(newStock.quoteResponse.result[0]);
-                        App.listItemsDisplay.Add(newStock.quoteResponse.result[0]);
-                    }
                     //Find the Chosen Sector
                     try
                     {
-                        int SectorLocation = sectorNames.IndexOf(Type.Items[Type.SelectedIndex]);
-                        App.SectorData.sectordata[SectorLocation].ValueLabel += 1;
                         await Navigation.PopAsync();
+                        await App.DataBase.SaveStockAsync(newStock.quoteResponse.result[0]);
+                        App.listItemsDisplay.Add(newStock.quoteResponse.result[0]);
                         isBusy = false;
                         await Navigation.PushAsync(new MainPage());
                     }
@@ -107,7 +95,7 @@ namespace test
         {
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
             inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
-            
+            inStock.quoteResponse.result[0].sector = Type.Items[Type.SelectedIndex];
             if (inStock.quoteResponse.result[0].change <= -50)
             {
                 inStock.quoteResponse.result[0].change = 0;

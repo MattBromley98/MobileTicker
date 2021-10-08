@@ -16,6 +16,8 @@ namespace test
             public string language { get; set; }
             public string region { get; set; }
             public string quoteType { get; set; }
+
+            public string sector { get; set; }
             public string quoteSourceName { get; set; }
             public bool triggerable { get; set; }
             public string currency { get; set; }
@@ -86,7 +88,7 @@ namespace test
             public string marketState { get; set; }
             public string displayName { get; set; }
             public string symbol { get; set; }
-            public string sector { get; set; }
+
 
             public double change { get; set; }
             public string color { get; set; }
@@ -109,7 +111,7 @@ namespace test
     {
         public string Label { get; set; }
         public int ValueLabel { get; set; }
-        public SKColor Color { get; set; }
+        public string Color { get; set; }
 
     }
 
