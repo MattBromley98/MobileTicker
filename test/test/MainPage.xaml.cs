@@ -11,6 +11,7 @@ using System.Net;
 using System.IO;
 using System.Timers;
 using System.Collections.ObjectModel;
+using XF.Material.Forms.UI.Dialogs;
 
 namespace test
 {
@@ -46,7 +47,7 @@ namespace test
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            
+           
             listItems = await App.DataBase.GetStocksAsync();
             App.listItemsDisplay = new ObservableCollection<Result>(listItems);
             itemListView.ItemsSource = App.listItemsDisplay;
@@ -81,9 +82,8 @@ namespace test
             App.listItemsDisplay.Remove(selectedStock);
             await App.DataBase.DeleteStockAsync(selectedStock);
             item.IsEnabled = false;
-            
-            await Navigation.PushAsync(new MainPage(),false);
-            await Navigation.PopAsync();
+            await MaterialDialog.Instance.SnackbarAsync(message: $"{selectedStock.symbol} has been Removed from the Portfolio.",
+                                            msDuration: MaterialSnackbar.DurationLong);
         }
 
         void Goto_Add(object sender, EventArgs e)
@@ -99,12 +99,10 @@ namespace test
             try
             {
                 int maxid = listItems.Max(t => t.ID);
-
                 //Console.WriteLine(listItems.ToString());
-                var DatabaseLength = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "stocks.db3")).Length;
                 for (int i = 0; i < maxid; i++)
                 {
-
+                    string sectorname = listItems[i].sector;
                     string symbolname = listItems[i].symbol;
                     int IDNumber = listItems[i].ID;
                     
@@ -120,7 +118,7 @@ namespace test
                     {
                         newData.quoteResponse.result[0].color = "Red";
                     }
-
+                    newData.quoteResponse.result[0].sector = sectorname;
                     await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
                     App.listItemsDisplay[i] = newData.quoteResponse.result[0];
                 }

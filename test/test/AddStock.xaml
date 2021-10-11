@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="test.AddStock">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+             x:Class="test.AddStock"
+             Visual="Material">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add"
                  Clicked="Add_Item"
@@ -11,19 +12,23 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 
-
-        <StackLayout>
-            <Label Text="Add a symbol to portfolio:"
-                VerticalOptions="Start" 
+        <ScrollView>
+        <StackLayout Margin="20">
+            <Label Text="Add a new symbol to the portfolio:"
+                VerticalOptions="Start"
+                FontSize="Large"
+                TextColor="Black"
                 HorizontalOptions="CenterAndExpand" />
-            <Label Text="Ticker Symbol:"></Label>
-            <Entry x:Name="Ticker" Text="{Binding symbol}" HorizontalOptions="Fill"></Entry>
-            <Label Text="Amount of Shares Owned:"></Label>
-            <Entry x:Name="Amount" HorizontalOptions="Fill"></Entry>
-            <Label Text="Breakeven Price:"></Label>
-            <Entry x:Name="Breakeven" HorizontalOptions="Fill"></Entry>
-            <Label Text="Sector:"></Label>
-            <Picker x:Name="Type" HorizontalOptions="Fill"></Picker>
+            <material:MaterialTextField x:Name="Ticker" Placeholder="Ticker Symbol" MaxLength="12" AlwaysShowUnderline="True"></material:MaterialTextField>
+            <material:MaterialTextField x:Name="Amount" Placeholder="Number of Shares Purchased" MaxLength="12" InputType="Numeric" AlwaysShowUnderline="True"></material:MaterialTextField>
+            <material:MaterialTextField x:Name="Breakeven" Placeholder="Breakeven Price" AlwaysShowUnderline="True"></material:MaterialTextField>
+            <Label Text="Select the corrosponding sector:"
+                   FontSize="Medium"
+                   TextColor="Black"></Label>
+
+
+            <material:MaterialRadioButtonGroup x:Name="Type" HorizontalOptions="Fill"></material:MaterialRadioButtonGroup>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

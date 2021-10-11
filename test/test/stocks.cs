@@ -88,8 +88,6 @@ namespace test
             public string marketState { get; set; }
             public string displayName { get; set; }
             public string symbol { get; set; }
-
-
             public double change { get; set; }
             public string color { get; set; }
 
@@ -128,6 +126,7 @@ namespace test
         public ObservableCollection<String> SectorNames { get; set; }
         public ObservableCollection<String> Retrieve_Items()
         {
+            SectorNames.Clear();
             foreach (Sectors i in sectordata)
             {
                 SectorNames.Add(i.Label);

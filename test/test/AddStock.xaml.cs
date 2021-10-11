@@ -26,7 +26,7 @@ namespace test
 
             InitializeComponent();
             sectorNames = App.SectorData.Retrieve_Items();
-            Type.ItemsSource = sectorNames;
+            Type.Choices = sectorNames;
             //Add a list of sectors for the user to choose
 
         }
@@ -95,7 +95,7 @@ namespace test
         {
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
             inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
-            inStock.quoteResponse.result[0].sector = Type.Items[Type.SelectedIndex];
+            inStock.quoteResponse.result[0].sector = Type.Choices[Type.SelectedIndex];
             if (inStock.quoteResponse.result[0].change <= -50)
             {
                 inStock.quoteResponse.result[0].change = 0;

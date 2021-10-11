@@ -7,18 +7,19 @@
        BackgroundColor="{DynamicResource WindowBackgroundColor}">
     <Shell.Resources>
         <Style TargetType="TabBar">
-            <Setter Property="Shell.TabBarBackgroundColor" Value="DarkSlateGray" />
-            <Setter Property="Shell.TabBarDisabledColor" Value="{DynamicResource TabBarDisabledColor}"/>
-            <Setter Property="Shell.TabBarForegroundColor" Value="LightGray" />
-            <Setter Property="Shell.TabBarTitleColor" Value="White"/>
-            <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource TabBarUnselectedColor}" />
         </Style>
     </Shell.Resources>
 
     <TabBar>
         <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" Title="Portfolio">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf015;"></FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
-        <ShellContent ContentTemplate="{DataTemplate views:SectorInfo}" Route="SectorInfo" Title="Sectors">
+        <ShellContent ContentTemplate="{DataTemplate views:SectorInfo}" Route="SectorInfo" Title="Overview">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf200;"></FontImageSource>
+                </ShellContent.Icon>
         </ShellContent>
     </TabBar>
 </Shell>
