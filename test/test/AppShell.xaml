@@ -21,5 +21,10 @@
                 <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf200;"></FontImageSource>
                 </ShellContent.Icon>
         </ShellContent>
+        <ShellContent ContentTemplate="{DataTemplate views:Settings}" Route="Settings" Title="Settings">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf4fe;"></FontImageSource>
+            </ShellContent.Icon>
+        </ShellContent>
     </TabBar>
 </Shell>

@@ -5,12 +5,16 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.ObjectModel;
 using SkiaSharp;
+using System.Net;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace test
 {
-    
+
     public partial class App : Application
     {
+        public static string Currency = "USD";
         public static List<Result> StockList = new List<Result>();
         //List of the Sector Names
         public static ObservableCollection<Result> listItemsDisplay = new ObservableCollection<Result>();
@@ -27,11 +31,11 @@ namespace test
                 }
                 return Database;
             }
-        }        
+        }
         public App()
         {
             //Populate the List of Sectors
-            SectorData.sectordata.Add(new Sectors { Label = "Air Travel", ValueLabel = 0, Color= "#2c3e50" });
+            SectorData.sectordata.Add(new Sectors { Label = "Air Travel", ValueLabel = 0, Color = "#2c3e50" });
             SectorData.sectordata.Add(new Sectors { Label = "Basic Materials", ValueLabel = 0, Color = "#7831d0" });
             SectorData.sectordata.Add(new Sectors { Label = "Communication Services", ValueLabel = 0, Color = "#3f3718" });
             SectorData.sectordata.Add(new Sectors { Label = "Conglomerates", ValueLabel = 0, Color = "#ac5a3a" });
@@ -54,6 +58,27 @@ namespace test
             // MainPage = new NavigationPage(new test.MainPage());
         }
 
+        public static async Task<double> CurrencyConvertAsync(string ConvertFrom, string ConvertTo, double Value){
+            //Converts a Value from One Currency to another using latest Yahoo Finance Currency Values
+            //ConvertFrom -> Currency to Convert From e.g (GBp)
+            //ConvertTo - > Currency to Convert To e.g (USD)
+            double newValue = 0;
+            ConvertTo = App.Currency;
+            //First check the stock is not listed in Pennies
+            if (ConvertFrom == "GBp")
+            {
+                Value = Value / 100;
+                ConvertFrom = "GBP";
+            }
+            //Define the ticker symbol of the Convert Rate
+            string currencyTicker = ConvertFrom + ConvertTo + "=X";
+            string url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={currencyTicker}";
+            string jsonData = new WebClient().DownloadString(url);
+            Root newData = JsonConvert.DeserializeObject<Root>(jsonData);
+            double currentPrice = newData.quoteResponse.result[0].ask;
+            newValue = Value * currentPrice; 
+            return newValue;
+            }
 
         protected override void OnStart()
         {

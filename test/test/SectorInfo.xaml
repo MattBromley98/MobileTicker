@@ -14,9 +14,9 @@
                     <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="130" HorizontalOptions="FillAndExpand">
                         <material:MaterialCard.Content>
                             <StackLayout>
-                                <Label x:Name="PortfolioValue" Text="Total Portfolio Value is:" TextColor="Black"></Label>
+                                <Label x:Name="PortfolioValue" Text="Your Total Portfolio Value is worth:" TextColor="Black"></Label>
                                 <Label x:Name="PortfolioValue2" Text="£2300" TextColor="Black" FontSize="50"></Label>
-                                <Label x:Name="PortfolioValue3" Text="Profit/Loss:" TextColor="Black"></Label>
+                                <Label x:Name="PortfolioValue3" Text="" TextColor="Black"></Label>
                             </StackLayout>
                         </material:MaterialCard.Content>
                     </material:MaterialCard>

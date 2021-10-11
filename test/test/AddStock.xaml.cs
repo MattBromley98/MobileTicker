@@ -68,7 +68,8 @@ namespace test
                     
                     Root newStock = await Populate_Item(jsonData);
                     newStock.quoteResponse.result[0].amount = amount;
-                    newStock.quoteResponse.result[0].allocated = newStock.quoteResponse.result[0].ask * amount;
+                    //Define 3 Methods for Different Currencies
+                    newStock.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(newStock.quoteResponse.result[0].currency, "USD", newStock.quoteResponse.result[0].ask) * amount;
 
                     if (newStock.quoteResponse.result[0].change > 0)
                     {

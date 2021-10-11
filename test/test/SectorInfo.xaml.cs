@@ -19,7 +19,7 @@ namespace test
         {
             InitializeComponent();
             OnAppearing();
-            Chart1.Chart = new DonutChart() { Entries = entries };
+            Chart1.Chart = new DonutChart() { Entries = entries, LabelTextSize=23 };
 
 
 
@@ -48,7 +48,7 @@ namespace test
                 string Symbol = App.listItemsDisplay[i].shortName;
                 string SectorName = App.listItemsDisplay[i].sector;
                 int IndexinSectors = sectorNames.IndexOf(SectorName);
-                App.SectorData.sectordata[IndexinSectors].ValueLabel += 1;
+                App.SectorData.sectordata[IndexinSectors].ValueLabel += (int)Math.Ceiling(App.listItemsDisplay[i].allocated);
             }
             foreach (Sectors i in App.SectorData.sectordata)
             {
@@ -60,9 +60,9 @@ namespace test
 
 
             }
-            
-            
-            PortfolioValue2.Text = Convert.ToString(value);
+
+            value = (int)Math.Ceiling(value);
+            PortfolioValue2.Text = Convert.ToString(value) + " " + App.Currency;
 
         }
 

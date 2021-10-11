@@ -121,7 +121,7 @@ namespace test
                     //Ensure the Sector Name and Amount are Kept and the Allocated is updated with new ask price
                     newData.quoteResponse.result[0].sector = sectorName;
                     newData.quoteResponse.result[0].amount = amount;
-                    newData.quoteResponse.result[0].allocated = newData.quoteResponse.result[0].ask * amount;
+                    newData.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(newData.quoteResponse.result[0].currency,"USD",newData.quoteResponse.result[0].ask) * amount;
                     await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
                     App.listItemsDisplay[i] = newData.quoteResponse.result[0];
                 }
