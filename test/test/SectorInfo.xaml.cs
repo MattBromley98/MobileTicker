@@ -41,8 +41,8 @@ namespace test
             for (int i = 0; i < maxID; i++)
             {
                 string Symbol = App.listItemsDisplay[i].shortName;
-                string sectorName = App.listItemsDisplay[i].sector;
-                int IndexinSectors = sectorNames.IndexOf(sectorName);
+                string SectorName = App.listItemsDisplay[i].sector;
+                int IndexinSectors = sectorNames.IndexOf(SectorName);
                 App.SectorData.sectordata[IndexinSectors].ValueLabel += 1;
             }
             foreach (Sectors i in App.SectorData.sectordata)
