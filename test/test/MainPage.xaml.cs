@@ -95,17 +95,16 @@ namespace test
 
         async void Update_Tickers(Object source, ElapsedEventArgs e)
         {
+            listItems.Clear();
             listItems = await App.DataBase.GetStocksAsync();
             try
             {
-                int maxid = listItems.Max(t => t.ID);
-                //Console.WriteLine(listItems.ToString());
+                int maxid = listItems.Count;
                 for (int i = 0; i < maxid; i++)
                 {
-                    string sectorname = listItems[i].sector;
                     string symbolname = listItems[i].symbol;
                     int IDNumber = listItems[i].ID;
-                    
+                    string sectorName = listItems[i].sector;
                     url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={symbolname}";
                     string jsonData = new WebClient().DownloadString(url);
                     Root newData = await Populate_Item(jsonData);
@@ -118,7 +117,8 @@ namespace test
                     {
                         newData.quoteResponse.result[0].color = "Red";
                     }
-                    newData.quoteResponse.result[0].sector = sectorname;
+
+                    newData.quoteResponse.result[0].sector = sectorName;
                     await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
                     App.listItemsDisplay[i] = newData.quoteResponse.result[0];
                 }
