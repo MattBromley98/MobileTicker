@@ -17,7 +17,7 @@
 
     <ContentPage.Content>
         <StackLayout x:Name="MainLayout">
-            <ListView x:Name="itemListView" RowHeight="80" HorizontalOptions="Fill"
+            <ListView x:Name="itemListView" RowHeight="60" HorizontalOptions="Fill"
 
                           VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
                       
@@ -59,8 +59,6 @@
 
 
                                         <Label x:Name="ChangePct" Text="{Binding change, StringFormat='Change: {0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
-                                        </Label>
-                                        <Label x:Name="Sector" Text="{Binding sector}" FontSize="Medium" Grid.Column="0" Grid.Row="2" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
                                         </Label>
 
                                     </Grid>

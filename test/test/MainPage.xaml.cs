@@ -105,6 +105,7 @@ namespace test
                     string symbolname = listItems[i].symbol;
                     int IDNumber = listItems[i].ID;
                     string sectorName = listItems[i].sector;
+                    double amount = listItems[i].amount;
                     url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={symbolname}";
                     string jsonData = new WebClient().DownloadString(url);
                     Root newData = await Populate_Item(jsonData);
@@ -117,8 +118,10 @@ namespace test
                     {
                         newData.quoteResponse.result[0].color = "Red";
                     }
-
+                    //Ensure the Sector Name and Amount are Kept and the Allocated is updated with new ask price
                     newData.quoteResponse.result[0].sector = sectorName;
+                    newData.quoteResponse.result[0].amount = amount;
+                    newData.quoteResponse.result[0].allocated = newData.quoteResponse.result[0].ask * amount;
                     await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
                     App.listItemsDisplay[i] = newData.quoteResponse.result[0];
                 }

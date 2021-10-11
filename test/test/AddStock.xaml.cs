@@ -47,14 +47,28 @@ namespace test
                     isBusy = true;
                     string url = "";
                     string StockName = "";
+                    double amount = 0;
+                    double bep = 0;
                     //What to execute when the Add Button is pressed on the AddStock page
                     StockName = Ticker.Text;
+                    try {
+
+                        amount = Convert.ToDouble(Amount.Text);
+                        bep = Convert.ToDouble(Breakeven.Text);
+                    }
+                    catch
+                    {
+                        await DisplayAlert("Error", "Please ensure the Amount and Breakeven Price entered is numeric", "OK");
+                        IsBusy = false;
+                        return;
+                    }
                     url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={StockName}";
 
                     string jsonData = new WebClient().DownloadString(url);
-
+                    
                     Root newStock = await Populate_Item(jsonData);
-
+                    newStock.quoteResponse.result[0].amount = amount;
+                    newStock.quoteResponse.result[0].allocated = newStock.quoteResponse.result[0].ask * amount;
 
                     if (newStock.quoteResponse.result[0].change > 0)
                     {

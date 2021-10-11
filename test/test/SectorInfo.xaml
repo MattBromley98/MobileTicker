@@ -1,11 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Sector Information"
-             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:cardview="http://schemas.android.com/apk/res-auto"
+             Title="Portfolio Overview"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              x:Class="test.SectorInfo">
   <!--Pages can be added as references or inline-->
-
-    <forms:ChartView x:Name="Chart1"  
-                               HeightRequest="150"/>
+    <ContentPage.Content>
+    <StackLayout Orientation="Vertical"
+                     Margin="16">
+            <ScrollView>
+                <StackLayout>
+                    <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="130" HorizontalOptions="FillAndExpand">
+                        <material:MaterialCard.Content>
+                            <StackLayout>
+                                <Label x:Name="PortfolioValue" Text="Total Portfolio Value is:" TextColor="Black"></Label>
+                                <Label x:Name="PortfolioValue2" Text="£2300" TextColor="Black" FontSize="50"></Label>
+                                <Label x:Name="PortfolioValue3" Text="Profit/Loss:" TextColor="Black"></Label>
+                            </StackLayout>
+                        </material:MaterialCard.Content>
+                    </material:MaterialCard>
+                    <material:MaterialCard x:Name="ChartCard" CornerRadius="2" Elevation="2" HeightRequest="210" HorizontalOptions="FillAndExpand">
+                    <material:MaterialCard.Content>
+                            <StackLayout>
+                            <Label Text="Sector Diversification:" TextColor="Black"></Label>
+                            <forms:ChartView x:Name="Chart1" HeightRequest="200"/>
+                            </StackLayout>
+                        </material:MaterialCard.Content>
+                </material:MaterialCard>
+                </StackLayout>
+            </ScrollView>
+    </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

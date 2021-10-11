@@ -16,7 +16,7 @@ namespace test
             public string language { get; set; }
             public string region { get; set; }
             public string quoteType { get; set; }
-
+            public double amount { get; set; }
             public string sector { get; set; }
             public string quoteSourceName { get; set; }
             public bool triggerable { get; set; }
@@ -38,6 +38,7 @@ namespace test
             public int askSize { get; set; }
             public string fullExchangeName { get; set; }
             public string financialCurrency { get; set; }
+            public double allocated { get; set; }
             public double regularMarketOpen { get; set; }
             public double averageDailyVolume3Month { get; set; }
             public double averageDailyVolume10Day { get; set; }

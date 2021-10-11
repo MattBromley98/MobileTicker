@@ -11,23 +11,27 @@ namespace test
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SectorInfo
     {
+        public double value = 0;
         public List<Result> tempStockData = new List<Result>();
         public List<ChartEntry> entries = new List<ChartEntry>();
         private ObservableCollection<String> sectorNames = new ObservableCollection<String>();
         public SectorInfo()
         {
-            
-                
-
-         
             InitializeComponent();
+            OnAppearing();
             Chart1.Chart = new DonutChart() { Entries = entries };
+
+
+
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
+            //Reset portfolio value
+            value = 0;
             entries.Clear();
+            
             sectorNames = App.SectorData.Retrieve_Items();
             //Try and populate the SectorData with Relevant Sectors
             //Iterate through the Items of listItemsDisplay
@@ -40,6 +44,7 @@ namespace test
             //Iterate across the Item List
             for (int i = 0; i < maxID; i++)
             {
+                value += App.listItemsDisplay[i].allocated;
                 string Symbol = App.listItemsDisplay[i].shortName;
                 string SectorName = App.listItemsDisplay[i].sector;
                 int IndexinSectors = sectorNames.IndexOf(SectorName);
@@ -55,6 +60,10 @@ namespace test
 
 
             }
+            
+            
+            PortfolioValue2.Text = Convert.ToString(value);
+
         }
 
         public async void Get_Data()
