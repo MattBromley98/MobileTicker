@@ -5,6 +5,8 @@ using Microcharts.Forms;
 using SkiaSharp;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Collections;
 
 namespace test
 {
@@ -14,12 +16,16 @@ namespace test
         public double value = 0;
         public List<Result> tempStockData = new List<Result>();
         public List<ChartEntry> entries = new List<ChartEntry>();
+        public List<ChartEntry> entrieshistory = new List<ChartEntry>();
         private ObservableCollection<String> sectorNames = new ObservableCollection<String>();
+        public List<double> TotalValue = new List<double>();
+        public List<Double> AmountAllocated = new List<Double>();
         public SectorInfo()
         {
             InitializeComponent();
             OnAppearing();
             Chart1.Chart = new DonutChart() { Entries = entries, LabelTextSize=23 };
+            Chart2.Chart = new LineChart() { Entries = entrieshistory, LineMode=LineMode.Spline};
 
 
 
@@ -31,7 +37,9 @@ namespace test
             //Reset portfolio value
             value = 0;
             entries.Clear();
-            
+            entrieshistory.Clear();
+            AmountAllocated.Clear();
+            App.history.Clear();
             sectorNames = App.SectorData.Retrieve_Items();
             //Try and populate the SectorData with Relevant Sectors
             //Iterate through the Items of listItemsDisplay
@@ -45,9 +53,11 @@ namespace test
             for (int i = 0; i < maxID; i++)
             {
                 value += App.listItemsDisplay[i].allocated;
-                string Symbol = App.listItemsDisplay[i].shortName;
+                string Symbol = App.listItemsDisplay[i].symbol;
+                App.Get_History(Symbol);
                 string SectorName = App.listItemsDisplay[i].sector;
                 int IndexinSectors = sectorNames.IndexOf(SectorName);
+                AmountAllocated.Add(App.listItemsDisplay[i].amount);
                 App.SectorData.sectordata[IndexinSectors].ValueLabel += (int)Math.Ceiling(App.listItemsDisplay[i].allocated);
             }
             foreach (Sectors i in App.SectorData.sectordata)
@@ -60,17 +70,43 @@ namespace test
 
 
             }
+            int iterator = 0;
+            foreach(List<Double> i in App.history)
+            {
+                double allocate = AmountAllocated[iterator];
+                Console.WriteLine($"The amount allocated of this stock is: {allocate}");
+                if (iterator == 0)
+                {//First stock add all values, second stock we add the values together and the allocations
 
+                    var newValue = i.Select(r => r * allocate).ToList();
+                    TotalValue = newValue;
+                    iterator += 1;
+                }
+                else
+                {
+                    var newValue = i.Select(r => r * allocate).ToList();
+                    TotalValue = TotalValue.Zip(newValue, (x, y) => x + y).ToList();
+                    iterator += 1;
+                }
+            }
+            iterator = 0;
+                foreach (float close in TotalValue)
+                {
+                    entrieshistory.Add(new ChartEntry(close) { Label = Convert.ToString(iterator) });
+                    iterator = iterator + 1;
+
+                }
             value = (int)Math.Ceiling(value);
             PortfolioValue2.Text = Convert.ToString(value) + " " + App.Currency;
 
+
+        }
+            
+            
+
+
         }
 
-        public async void Get_Data()
-        {
-            tempStockData = await App.DataBase.GetStocksAsync();
-        }
 
         
     }
-}

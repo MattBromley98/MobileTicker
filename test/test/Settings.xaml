@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              x:Class="test.Settings"
-             Title="Settings">
+             Title="Settings"
+             >
     <ContentPage.Content>
         <StackLayout Margin="20">
             <material:MaterialLabel Text="Currency Choice:" FontSize="Medium"></material:MaterialLabel>
             <material:MaterialRadioButtonGroup x:Name="CurrencyChoice" HorizontalOptions="Fill" SelectedIndexChanged="CurrencyChoice_OnSelectedIndexChanged"></material:MaterialRadioButtonGroup>
-            <material:MaterialLabel Text="Please note it may take up to 20 seconds for the currency to change." FontSize="Small"></material:MaterialLabel>
-
+            <material:MaterialLabel Text="Please note it may take up to 20 seconds for the currency to change." FontSize="Small" VerticalOptions="FillAndExpand"></material:MaterialLabel>
+            <Label VerticalOptions="End" HorizontalOptions="Center" Text="App made by Milpan (Matthew Bromley) 2021"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

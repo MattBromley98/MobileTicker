@@ -134,6 +134,9 @@ namespace test
                 Console.WriteLine($"Failed to load Stock ID {itemID}");
             }
         }
+
+
+
     }
 
 

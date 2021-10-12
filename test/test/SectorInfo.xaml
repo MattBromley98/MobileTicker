@@ -4,14 +4,15 @@
              xmlns:cardview="http://schemas.android.com/apk/res-auto"
              Title="Portfolio Overview"
              xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
-             x:Class="test.SectorInfo">
+             x:Class="test.SectorInfo"
+             BackgroundColor="LightGray">
   <!--Pages can be added as references or inline-->
-    <ContentPage.Content>
+    <ContentPage.Content >
     <StackLayout Orientation="Vertical"
-                     Margin="16">
+                     Margin="16" >
             <ScrollView>
                 <StackLayout>
-                    <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="130" HorizontalOptions="FillAndExpand">
+                    <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="100" HorizontalOptions="FillAndExpand">
                         <material:MaterialCard.Content>
                             <StackLayout>
                                 <Label x:Name="PortfolioValue" Text="Your Total Portfolio Value is worth:" TextColor="Black"></Label>
@@ -28,6 +29,14 @@
                             </StackLayout>
                         </material:MaterialCard.Content>
                 </material:MaterialCard>
+                    <material:MaterialCard x:Name="HistoryCard" CornerRadius="2" Elevation="2" HeightRequest="210" HorizontalOptions="FillAndExpand">
+                        <material:MaterialCard.Content>
+                            <StackLayout>
+                                <Label Text="Historical Data:" TextColor="Black"></Label>
+                                <forms:ChartView x:Name="Chart2" HeightRequest="200"/>
+                            </StackLayout>
+                        </material:MaterialCard.Content>
+                    </material:MaterialCard>
                 </StackLayout>
             </ScrollView>
     </StackLayout>

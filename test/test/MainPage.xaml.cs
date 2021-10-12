@@ -32,16 +32,13 @@ namespace test
             
             InitializeComponent();
             OnAppearing();
+            
             this.ToolbarItems.Add(item);
             item.IsEnabled = false;
             Timer t = new Timer(20000);
             t.AutoReset = true;
             t.Elapsed += new ElapsedEventHandler(Update_Tickers);
             t.Start();
-        }
-           async void Populate_List()
-        {
-            
         }
 
         protected override async void OnAppearing()
@@ -82,9 +79,7 @@ namespace test
             App.listItemsDisplay.Remove(selectedStock);
             await App.DataBase.DeleteStockAsync(selectedStock);
             item.IsEnabled = false;
-            
-            await Navigation.PushAsync(new MainPage(),false);
-            await Navigation.PopAsync();
+           
         }
 
         void Goto_Add(object sender, EventArgs e)
@@ -109,11 +104,17 @@ namespace test
                     string sectorname = listItems[i].sector;
                     string symbolname = listItems[i].symbol;
                     int IDNumber = listItems[i].ID;
+                    double AmountStock = listItems[i].amount;
                     string sectorName = listItems[i].sector;
+                    string CurrencyName = listItems[i].currency;
                     url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={symbolname}";
                     string jsonData = new WebClient().DownloadString(url);
                     Root newData = await Populate_Item(jsonData);
                     newData.quoteResponse.result[0].ID = IDNumber;
+                    newData.quoteResponse.result[0].sector = sectorName;
+                    newData.quoteResponse.result[0].amount = AmountStock;
+                    //Calculate the new allocated price
+                    newData.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(CurrencyName,App.Currency,newData.quoteResponse.result[0].ask) * AmountStock;
                     if (newData.quoteResponse.result[0].change > 0)
                     {
                         newData.quoteResponse.result[0].color = "Green";
@@ -148,9 +149,5 @@ namespace test
             return inStock;
         }
         
-        async void example_ticker(string ticker)
-        {
-
-        }
     }
 }

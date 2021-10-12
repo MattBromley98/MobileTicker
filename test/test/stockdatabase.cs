@@ -58,4 +58,52 @@ namespace test
             return database.DeleteAsync(inStock);
         }
     }
+
+
+    public class historydatabase
+    {
+        readonly SQLiteAsyncConnection database;
+        public historydatabase(string dbPath)
+        {
+            database = new SQLiteAsyncConnection(dbPath);
+            database.CreateTableAsync<Result>().Wait();
+        }
+        public Task<List<Root2>> GetStocksAsync()
+        {
+            /*
+             * Function to return a Table of all Stocks appended in the database.
+             */
+            return database.Table<Root2>().ToListAsync();
+        }
+        public Task<Root2> GetStockAsync(int id)
+        {
+            /*
+            * Function to return an individual stock in the database.
+            */
+            return database.Table<Root2>().Where(i => i.ID == id).FirstOrDefaultAsync();
+        }
+        public Task<int> SaveStockAsync(Root2 inStock)
+        {
+            /*
+            * Function which checks if a stock is already in the database and if not add it.
+             */
+            if (inStock.ID != 0)
+            {
+                //Updates the Stock
+                return database.UpdateAsync(inStock);
+            }
+            else
+            {
+                //Creates a new Stock in the Database
+                return database.InsertAsync(inStock);
+            }
+        }
+        public Task<int> DeleteStockAsync(Root2 inStock)
+        {
+            /*
+            * Function to delete an individual stock in the database.
+            */
+            return database.DeleteAsync(inStock);
+        }
+    }
 }

@@ -8,12 +8,14 @@ using SkiaSharp;
 using System.Net;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace test
 {
 
     public partial class App : Application
     {
+        public static List<List<Double>> history = new List<List<Double>>();
         public static string Currency = "USD";
         public static List<Result> StockList = new List<Result>();
         //List of the Sector Names
@@ -79,6 +81,41 @@ namespace test
             newValue = Value * currentPrice; 
             return newValue;
             }
+
+        public static List<double> CurrencyConvertList(string ConvertFrom, string ConvertTo, List<double> Value)
+        {
+            //Converts a Value from One Currency to another using latest Yahoo Finance Currency Values
+            //ConvertFrom -> Currency to Convert From e.g (GBp)
+            //ConvertTo - > Currency to Convert To e.g (USD)
+            ConvertTo = App.Currency;
+            //First check the stock is not listed in Pennies
+            if (ConvertFrom == "GBp")
+            {
+                Value = Value.Select(r => r / 100).ToList();
+                ConvertFrom = "GBP";
+            }
+            //Define the ticker symbol of the Convert Rate
+            string currencyTicker = ConvertFrom + ConvertTo + "=X";
+            string url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={currencyTicker}";
+            string jsonData = new WebClient().DownloadString(url);
+            Root newData = JsonConvert.DeserializeObject<Root>(jsonData);
+            double currentPrice = newData.quoteResponse.result[0].ask;
+            Value = Value.Select(r => r * currentPrice).ToList();
+            return Value;
+        }
+
+        public static void Get_History(string symbol)
+        {
+            string url = $"https://query1.finance.yahoo.com/v7/finance/chart/{symbol}?range=2y&interval=1d&indicators=quote&includeTimestamps=true";
+            string jsonData = new WebClient().DownloadString(url);
+            Root2 newHistory = JsonConvert.DeserializeObject<Root2>(jsonData);
+            //Ensure the history is in the correct currency
+
+            var ClosePrice = CurrencyConvertList(newHistory.chart.result[0].meta.currency, App.Currency, newHistory.chart.result[0].indicators.quote[0].close);
+            App.history.Add(ClosePrice);
+
+        }
+
 
         protected override void OnStart()
         {

@@ -23,6 +23,7 @@ namespace test
 			Currencies.Add("JPY");
 			InitializeComponent ();
 			CurrencyChoice.Choices = Currencies;
+			CurrencyChoice.SelectedIndex = 0;
 		}
 		private void CurrencyChoice_OnSelectedIndexChanged(object sender, SelectedIndexChangedEventArgs e)
 		{

@@ -48,7 +48,7 @@
 
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Text="{Binding shortName, StringFormat='Name: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0" LineBreakMode="WordWrap">
+                                        <Label Text="{Binding shortName, StringFormat='{0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0" LineBreakMode="WordWrap">
 
                                         </Label>
 
