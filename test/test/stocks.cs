@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using SkiaSharp;
 using SQLite;
 using Xamarin.Forms;
@@ -190,15 +192,22 @@ namespace test
 
     public class Quote
     {
+        [DefaultValue(0)]
         public List<double> open { get; set; }
+        [DefaultValue(0)]
         public List<double> low { get; set; }
+        [DefaultValue(0)]
         public List<double> close { get; set; }
+        [DefaultValue(0)]
         public List<double> high { get; set; }
-        public List<int> volume { get; set; }
+        [DefaultValue(0)]
+        public List<double> volume { get; set; }
+
     }
 
     public class Adjclose
     {
+        [DefaultValue(0)]
         public List<double> adjclose { get; set; }
     }
 

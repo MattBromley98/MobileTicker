@@ -15,6 +15,13 @@ namespace test
 
     public partial class App : Application
     {
+        //JSON Settings to ensure all stocks can be parsed
+        static JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Include,
+            MissingMemberHandling = MissingMemberHandling.Ignore
+        };
+
         public static List<List<Double>> history = new List<List<Double>>();
         public static string Currency = "USD";
         public static List<Result> StockList = new List<Result>();
@@ -22,6 +29,8 @@ namespace test
         public static ObservableCollection<Result> listItemsDisplay = new ObservableCollection<Result>();
         static stockdatabase Database;
         public static ListSectors SectorData = new ListSectors();
+        public static string TimeFrame = "1y";
+        public static string Interval = "1wk";
         //Create the database if not already constructed
         public static stockdatabase DataBase
         {
@@ -106,9 +115,16 @@ namespace test
 
         public static void Get_History(string symbol)
         {
-            string url = $"https://query1.finance.yahoo.com/v7/finance/chart/{symbol}?range=2y&interval=1d&indicators=quote&includeTimestamps=true";
+            //Check if Symbol contains any dots if so replace them to ensure the URL can be parsed
+            symbol = symbol.Replace(".", "%2E");
+            Console.WriteLine($"NEW STRING {symbol}");
+            string url = $"https://query1.finance.yahoo.com/v7/finance/chart/{symbol}?range={App.TimeFrame}&interval={App.Interval}&indicators=quote&includeTimestamps=true";
             string jsonData = new WebClient().DownloadString(url);
-            Root2 newHistory = JsonConvert.DeserializeObject<Root2>(jsonData);
+
+            Root2 newHistory = JsonConvert.DeserializeObject<Root2>(jsonData, settings);
+
+
+            
             //Ensure the history is in the correct currency
 
             var ClosePrice = CurrencyConvertList(newHistory.chart.result[0].meta.currency, App.Currency, newHistory.chart.result[0].indicators.quote[0].close);

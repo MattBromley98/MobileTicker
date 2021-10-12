@@ -48,6 +48,7 @@ namespace test
             listItems = await App.DataBase.GetStocksAsync();
             App.listItemsDisplay = new ObservableCollection<Result>(listItems);
             itemListView.ItemsSource = App.listItemsDisplay;
+            
             /*
             itemListView.GroupDisplayBinding = new Binding("sector");
             itemListView.IsGroupingEnabled = true;

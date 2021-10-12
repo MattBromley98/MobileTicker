@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace test
 {
@@ -25,11 +26,12 @@ namespace test
             InitializeComponent();
             OnAppearing();
             Chart1.Chart = new DonutChart() { Entries = entries, LabelTextSize=23 };
-            Chart2.Chart = new LineChart() { Entries = entrieshistory, LineMode=LineMode.Spline};
+            Chart2.Chart = new LineChart() { Entries = entrieshistory, LineMode=LineMode.Spline, PointSize=0};
 
 
 
         }
+
 
         protected override void OnAppearing()
         {
@@ -54,11 +56,20 @@ namespace test
             {
                 value += App.listItemsDisplay[i].allocated;
                 string Symbol = App.listItemsDisplay[i].symbol;
-                App.Get_History(Symbol);
-                string SectorName = App.listItemsDisplay[i].sector;
-                int IndexinSectors = sectorNames.IndexOf(SectorName);
-                AmountAllocated.Add(App.listItemsDisplay[i].amount);
-                App.SectorData.sectordata[IndexinSectors].ValueLabel += (int)Math.Ceiling(App.listItemsDisplay[i].allocated);
+                try
+                {
+                    App.Get_History(Symbol);
+                    string SectorName = App.listItemsDisplay[i].sector;
+                    int IndexinSectors = sectorNames.IndexOf(SectorName);
+                    AmountAllocated.Add(App.listItemsDisplay[i].amount);
+                    App.SectorData.sectordata[IndexinSectors].ValueLabel += (int)Math.Ceiling(App.listItemsDisplay[i].allocated);
+                }
+                catch
+                {
+                    DisplayAlert("Error", $"A stock in the potfolio named {Symbol} is returning null values and needs to be removed from the portfolio", "OK").ContinueWith(t =>
+                    {
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                }
             }
             foreach (Sectors i in App.SectorData.sectordata)
             {
@@ -74,7 +85,6 @@ namespace test
             foreach(List<Double> i in App.history)
             {
                 double allocate = AmountAllocated[iterator];
-                Console.WriteLine($"The amount allocated of this stock is: {allocate}");
                 if (iterator == 0)
                 {//First stock add all values, second stock we add the values together and the allocations
 
@@ -92,7 +102,7 @@ namespace test
             iterator = 0;
                 foreach (float close in TotalValue)
                 {
-                    entrieshistory.Add(new ChartEntry(close) { Label = Convert.ToString(iterator) });
+                    entrieshistory.Add(new ChartEntry(close) { Label = Convert.ToString(iterator), Color= SKColor.Parse("000FFF") });
                     iterator = iterator + 1;
 
                 }
