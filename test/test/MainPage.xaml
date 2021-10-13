@@ -1,25 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-    
+
 
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:fab="clr-namespace:Refractored.FabControl;assembly=Refractored.FabControl"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:fab="clr-namespace:Refractored.FabControl;assembly=Refractored.FabControl" xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              Title="Tickers"
              x:Class="test.MainPage"
              >
-    <ContentPage.ToolbarItems>
-
-    </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        
         <AbsoluteLayout x:Name="MyAbsolute" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        
-            <ListView x:Name="itemListView" RowHeight="67" HorizontalOptions="Fill"
+            <ListView x:Name="itemListView" RowHeight="67" HorizontalOptions="FillAndExpand"
 
                           VerticalOptions="FillAndExpand" SeparatorColor="MediumPurple"
                       
+                          VerticalScrollBarVisibility="Never"
                           ItemTapped="Handle_ItemSelected"
 
                           BackgroundColor="Transparent">
@@ -37,9 +33,9 @@
 
                             </ViewCell.ContextActions>
 
-                            <StackLayout Orientation="Vertical" Padding="5">
+                            <StackLayout HorizontalOptions="FillAndExpand" Margin="7">
 
-                                <StackLayout Orientation="Vertical">
+                                
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -48,22 +44,21 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Label Text="{Binding shortName, StringFormat='{0:N}'}" d:LineBreakMode="TailTruncation" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0" LineBreakMode="WordWrap">
-
+    
                                         </Label>
 
-                                        <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="0" Grid.Row="1" >
+                                        <Label Text="{Binding symbol, StringFormat='Symbol: {0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Small" Grid.Column="0" Grid.Row="1" >
                                         </Label>
                                         <Label Text="{Binding outputPrice}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" Grid.Column="1" Grid.Row="1"  HorizontalTextAlignment="End">
                                         </Label>
-
-
-                                        <Label x:Name="ChangePct" Text="{Binding change, StringFormat='{0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
-                                        </Label>
+                                    
+                                    <material:MaterialChip x:Name="ChangePct" BackgroundColor="{Binding color}" Text="{Binding change, StringFormat='{0:N} %'}" TextColor="White" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
+                                    
 
                                     </Grid>
 
 
-                                </StackLayout>
+                               
 
                             </StackLayout>
 
@@ -74,7 +69,7 @@
                 </ListView.ItemTemplate>
 
             </ListView>
-
+            
             <fab:FloatingActionButtonView
                 x:Name="FloatingActionButtonAdd"
                 ImageName="additem.png"
@@ -87,7 +82,6 @@
 
 
 
-        
         </AbsoluteLayout>
         
     </ContentPage.Content>

@@ -73,11 +73,11 @@ namespace test
                     newStock.quoteResponse.result[0].bep = bep;
                     if (newStock.quoteResponse.result[0].change > 0)
                     {
-                        newStock.quoteResponse.result[0].color = "Green";
+                        newStock.quoteResponse.result[0].color = "#6200EE";
                     }
                     else
                     {
-                        newStock.quoteResponse.result[0].color = "Red";
+                        newStock.quoteResponse.result[0].color = "#140030";
                     }
                     //Find the Chosen Sector
                     try

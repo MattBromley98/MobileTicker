@@ -33,7 +33,7 @@ namespace test
         {
 
             InitializeComponent();
-            OnAppearing();
+            
             //Set up the floating Action Button
             //FloatingActionButtonAdd
             AbsoluteLayout.SetLayoutFlags(MyAbsolute, AbsoluteLayoutFlags.All);
@@ -64,6 +64,13 @@ namespace test
             listItems = await App.DataBase.GetStocksAsync();
             App.listItemsDisplay = new ObservableCollection<Result>(listItems);
             itemListView.ItemsSource = App.listItemsDisplay;
+
+            AbsoluteLayout.SetLayoutFlags(MyAbsolute, AbsoluteLayoutFlags.All);
+            AbsoluteLayout.SetLayoutBounds(MyAbsolute, new Rectangle(0f, 0f, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            MyAbsolute.Children.Add(itemListView);
+            //Overlay the Fab Button
+            AbsoluteLayout.SetLayoutFlags(FloatingActionButtonAdd, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(FloatingActionButtonAdd, new Rectangle(1f, 1f, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
             /*
             itemListView.GroupDisplayBinding = new Binding("sector");
             itemListView.IsGroupingEnabled = true;
@@ -136,11 +143,12 @@ namespace test
                     newData.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(CurrencyName, App.Currency, newData.quoteResponse.result[0].ask) * AmountStock;
                     if (newData.quoteResponse.result[0].change > 0)
                     {
-                        newData.quoteResponse.result[0].color = "Green";
+                        newData.quoteResponse.result[0].color = "#6200EE";
                     }
                     else
                     {
-                        newData.quoteResponse.result[0].color = "Red";
+                        newData.quoteResponse.result[0].color = "#140030";
+                        newData.quoteResponse.result[0].color = "#140030";
                     }
 
                     await App.DataBase.SaveStockAsync(newData.quoteResponse.result[0]);
