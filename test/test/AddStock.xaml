@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              x:Class="test.AddStock"
-             Visual="Material">
+             Visual="Material"
+             BackgroundColor="LightGray">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add"
                  Clicked="Add_Item"
@@ -14,15 +15,19 @@
 
         <ScrollView>
             <StackLayout Margin="20">
-                
+                <material:MaterialCard >
+                <StackLayout>
+                <material:MaterialLabel Text="New Stock" TextColor="Black" FontSize="Title"></material:MaterialLabel>
                 <material:MaterialTextField x:Name="Ticker" Placeholder="Ticker Symbol" MaxLength="12" AlwaysShowUnderline="True"></material:MaterialTextField>
-            <material:MaterialTextField x:Name="Amount" Placeholder="Number of Shares Purchased" MaxLength="12" InputType="Numeric" AlwaysShowUnderline="True"></material:MaterialTextField>
-            <material:MaterialTextField x:Name="Breakeven" Placeholder="Breakeven Price" AlwaysShowUnderline="True"></material:MaterialTextField>
-            <Label Text="Select the corrosponding sector:"
-                   FontSize="Medium"
-                   TextColor="Black"></Label>
+                <material:MaterialTextField x:Name="Amount" Placeholder="Number of Shares Purchased" MaxLength="12" InputType="Numeric" AlwaysShowUnderline="True"></material:MaterialTextField>
+                <material:MaterialTextField x:Name="Breakeven" Placeholder="Breakeven Price" AlwaysShowUnderline="True"></material:MaterialTextField>
 
-                <material:MaterialTextField x:Name="Type" HorizontalOptions="FillAndExpand" InputType="Choice"></material:MaterialTextField>
+
+                 <material:MaterialTextField x:Name="Type" HorizontalOptions="FillAndExpand" InputType="Choice" Placeholder="Sector"></material:MaterialTextField>
+
+                    </StackLayout>
+                    </material:MaterialCard>
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

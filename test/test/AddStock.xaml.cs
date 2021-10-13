@@ -70,7 +70,7 @@ namespace test
                     newStock.quoteResponse.result[0].amount = amount;
                     //Define 3 Methods for Different Currencies
                     newStock.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(newStock.quoteResponse.result[0].currency, "USD", newStock.quoteResponse.result[0].ask) * amount;
-
+                    newStock.quoteResponse.result[0].bep = bep;
                     if (newStock.quoteResponse.result[0].change > 0)
                     {
                         newStock.quoteResponse.result[0].color = "Green";

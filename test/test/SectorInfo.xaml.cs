@@ -22,6 +22,7 @@ namespace test
         private ObservableCollection<String> sectorNames = new ObservableCollection<String>();
         public List<double> TotalValue = new List<double>();
         public List<Double> AmountAllocated = new List<Double>();
+        public double TotalProfit = 0;
         public SectorInfo()
         {
             InitializeComponent();
@@ -63,7 +64,7 @@ namespace test
             Chart2.Chart = new LineChart() { Entries = entrieshistory, LineMode = LineMode.Spline, PointSize = 0 };
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             //Reset portfolio value
@@ -89,19 +90,22 @@ namespace test
             {
                 value += App.listItemsDisplay[i].allocated;
                 string Symbol = App.listItemsDisplay[i].symbol;
+
                 try
                 {
                     App.Get_History(Symbol);
                     string SectorName = App.listItemsDisplay[i].sector;
+                    double bep = App.listItemsDisplay[i].bep;
+
                     int IndexinSectors = sectorNames.IndexOf(SectorName);
                     AmountAllocated.Add(App.listItemsDisplay[i].amount);
                     App.SectorData.sectordata[IndexinSectors].ValueLabel += (int)Math.Ceiling(App.listItemsDisplay[i].allocated);
+                    //Calculate the total profit
+                    TotalProfit += (App.listItemsDisplay[i].amount * (App.listItemsDisplay[i].ask - bep));
                 }
                 catch
                 {
-                    DisplayAlert("Error", $"A stock in the potfolio named {Symbol} is returning null values and needs to be removed from the portfolio", "OK").ContinueWith(t =>
-                    {
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    await DisplayAlert("Error", $"A stock in the potfolio named {Symbol} is returning null values and needs to be removed from the portfolio", "OK");
                 }
             }
             Get_History();
@@ -115,7 +119,20 @@ namespace test
             }
             value = (int)Math.Ceiling(value);
             PortfolioValue2.Text = Convert.ToString(value) + " " + App.Currency;
-            //activityIndicator.IsRunning = false;
+            if (TotalProfit > 0)
+            {
+                //Made a Profit
+                PortfolioValue3.Text = "Profit: " + Convert.ToString(TotalProfit) + " " + App.Currency;
+                PortfolioValue3.TextColor = Color.Green;
+            }
+            else
+            {
+                //Made a loss
+                PortfolioValue3.Text = "Loss: " + Convert.ToString(TotalProfit) + " " + App.Currency;
+                PortfolioValue3.TextColor = Color.Red;
+            }
+            
+            
 
         }
             

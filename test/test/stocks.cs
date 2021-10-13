@@ -93,7 +93,7 @@ namespace test
             public string symbol { get; set; }
             public double change { get; set; }
             public string color { get; set; }
-
+            public double bep { get; set; }
 
 
     }

@@ -13,12 +13,12 @@
                      Margin="16" >
             <ScrollView>
                 <StackLayout>
-                    <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="100" HorizontalOptions="FillAndExpand">
+                    <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="110" HorizontalOptions="FillAndExpand">
                         <material:MaterialCard.Content>
                             <StackLayout>
                                 <Label x:Name="PortfolioValue" Text="Your Total Portfolio is worth:" TextColor="Black"></Label>
                                 <Label x:Name="PortfolioValue2" Text="£2300" TextColor="Black" FontSize="50"></Label>
-                                <Label x:Name="PortfolioValue3" Text="" TextColor="Black"></Label>
+                                <Label x:Name="PortfolioValue3" Text="" TextColor="Black" FontAttributes="Bold"></Label>
                             </StackLayout>
                         </material:MaterialCard.Content>
                     </material:MaterialCard>

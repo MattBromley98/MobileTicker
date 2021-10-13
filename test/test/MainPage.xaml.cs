@@ -124,12 +124,14 @@ namespace test
                     double AmountStock = listItems[i].amount;
                     string sectorName = listItems[i].sector;
                     string CurrencyName = listItems[i].currency;
+                    double bep = listItems[i].bep;
                     url = $"https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={symbolname}";
                     string jsonData = new WebClient().DownloadString(url);
                     Root newData = await Populate_Item(jsonData);
                     newData.quoteResponse.result[0].ID = IDNumber;
                     newData.quoteResponse.result[0].sector = sectorName;
                     newData.quoteResponse.result[0].amount = AmountStock;
+                    newData.quoteResponse.result[0].bep = bep;
                     //Calculate the new allocated price
                     newData.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(CurrencyName, App.Currency, newData.quoteResponse.result[0].ask) * AmountStock;
                     if (newData.quoteResponse.result[0].change > 0)
