@@ -26,12 +26,42 @@ namespace test
             InitializeComponent();
             OnAppearing();
             Chart1.Chart = new DonutChart() { Entries = entries, LabelTextSize=23 };
-            Chart2.Chart = new LineChart() { Entries = entrieshistory, LineMode=LineMode.Spline, PointSize=0};
+            
 
 
 
         }
 
+
+        public async Task Get_History()
+        {
+            int iterator = 0;
+            foreach (List<Double> i in App.history)
+            {
+                double allocate = AmountAllocated[iterator];
+                if (iterator == 0)
+                {//First stock add all values, second stock we add the values together and the allocations
+
+                    var newValue = i.Select(r => r * allocate).ToList();
+                    TotalValue = newValue;
+                    iterator += 1;
+                }
+                else
+                {
+                    var newValue = i.Select(r => r * allocate).ToList();
+                    TotalValue = TotalValue.Zip(newValue, (x, y) => x + y).ToList();
+                    iterator += 1;
+                }
+            }
+            iterator = 0;
+            foreach (float close in TotalValue)
+            {
+                entrieshistory.Add(new ChartEntry(close) { Label = Convert.ToString(iterator), Color = SKColor.Parse("000FFF") });
+                iterator = iterator + 1;
+
+            }
+            Chart2.Chart = new LineChart() { Entries = entrieshistory, LineMode = LineMode.Spline, PointSize = 0 };
+        }
 
         protected override void OnAppearing()
         {
@@ -71,6 +101,7 @@ namespace test
                     }, TaskScheduler.FromCurrentSynchronizationContext());
                 }
             }
+            Get_History();
             foreach (Sectors i in App.SectorData.sectordata)
             {
                 //Ensure the Sector dosent have a value of 0
@@ -81,34 +112,9 @@ namespace test
 
 
             }
-            int iterator = 0;
-            foreach(List<Double> i in App.history)
-            {
-                double allocate = AmountAllocated[iterator];
-                if (iterator == 0)
-                {//First stock add all values, second stock we add the values together and the allocations
-
-                    var newValue = i.Select(r => r * allocate).ToList();
-                    TotalValue = newValue;
-                    iterator += 1;
-                }
-                else
-                {
-                    var newValue = i.Select(r => r * allocate).ToList();
-                    TotalValue = TotalValue.Zip(newValue, (x, y) => x + y).ToList();
-                    iterator += 1;
-                }
-            }
-            iterator = 0;
-                foreach (float close in TotalValue)
-                {
-                    entrieshistory.Add(new ChartEntry(close) { Label = Convert.ToString(iterator), Color= SKColor.Parse("000FFF") });
-                    iterator = iterator + 1;
-
-                }
             value = (int)Math.Ceiling(value);
             PortfolioValue2.Text = Convert.ToString(value) + " " + App.Currency;
-
+            
 
         }
             
