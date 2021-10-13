@@ -15,7 +15,7 @@
                     <material:MaterialCard x:Name="ValueCard" CornerRadius="2" Elevation="1" HeightRequest="100" HorizontalOptions="FillAndExpand">
                         <material:MaterialCard.Content>
                             <StackLayout>
-                                <Label x:Name="PortfolioValue" Text="Your Total Portfolio Value is worth:" TextColor="Black"></Label>
+                                <Label x:Name="PortfolioValue" Text="Your Total Portfolio is worth:" TextColor="Black"></Label>
                                 <Label x:Name="PortfolioValue2" Text="£2300" TextColor="Black" FontSize="50"></Label>
                                 <Label x:Name="PortfolioValue3" Text="" TextColor="Black"></Label>
                             </StackLayout>
@@ -32,7 +32,7 @@
                     <material:MaterialCard x:Name="HistoryCard" CornerRadius="2" Elevation="2" HeightRequest="210" HorizontalOptions="FillAndExpand">
                         <material:MaterialCard.Content>
                             <StackLayout>
-                                <Label Text="Historical Data:" TextColor="Black"></Label>
+                                <Label Text="Historical Performance of Portfolio:" TextColor="Black"></Label>
                                 <forms:ChartView x:Name="Chart2" HeightRequest="200"/>
                             </StackLayout>
                         </material:MaterialCard.Content>

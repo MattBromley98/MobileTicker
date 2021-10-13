@@ -4,26 +4,27 @@
        xmlns:views="clr-namespace:test"
        Title=""
        x:Class="test.AppShell"
-       BackgroundColor="{DynamicResource WindowBackgroundColor}">
+       BackgroundColor="#6200EE"
+       >
     <Shell.Resources>
         <Style TargetType="TabBar">
         </Style>
     </Shell.Resources>
 
     <TabBar>
-        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" Title="Portfolio">
+        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" Title="Portfolio" Shell.TabBarTitleColor="White" Shell.TabBarUnselectedColor="LightGray">
             <ShellContent.Icon>
-                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf015;"></FontImageSource>
+                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf015;" Color="White" ></FontImageSource>
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent ContentTemplate="{DataTemplate views:SectorInfo}" Route="SectorInfo" Title="Overview">
+        <ShellContent ContentTemplate="{DataTemplate views:SectorInfo}" Route="SectorInfo" Title="Overview" Shell.TabBarTitleColor="White" Shell.TabBarUnselectedColor="LightGray">
             <ShellContent.Icon>
-                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf200;"></FontImageSource>
+                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf200;" Color="White"></FontImageSource>
                 </ShellContent.Icon>
         </ShellContent>
-        <ShellContent ContentTemplate="{DataTemplate views:Settings}" Route="Settings" Title="Settings">
+        <ShellContent ContentTemplate="{DataTemplate views:Settings}" Route="Settings" Title="Settings" Shell.TabBarTitleColor="White" Shell.TabBarUnselectedColor="LightGray">
             <ShellContent.Icon>
-                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf4fe;"></FontImageSource>
+                <FontImageSource FontFamily="fasolid.otf#Regular" Glyph="&#xf4fe;" Color="White"></FontImageSource>
             </ShellContent.Icon>
         </ShellContent>
     </TabBar>

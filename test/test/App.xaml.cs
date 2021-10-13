@@ -10,9 +10,10 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Linq;
 
+
+
 namespace test
 {
-
     public partial class App : Application
     {
         //JSON Settings to ensure all stocks can be parsed
@@ -45,6 +46,7 @@ namespace test
         }
         public App()
         {
+            
             //Populate the List of Sectors
             SectorData.sectordata.Add(new Sectors { Label = "Air Travel", ValueLabel = 0, Color = "#2c3e50" });
             SectorData.sectordata.Add(new Sectors { Label = "Basic Materials", ValueLabel = 0, Color = "#7831d0" });

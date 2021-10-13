@@ -39,9 +39,13 @@ namespace test
 			Timeframes.Add("2y");
 			Timeframes.Add("3y");
 			InitializeComponent ();
+			//Set the choices of the Radio Buttons in the Settings Menu
 			CurrencyChoice.Choices = Currencies;
 			Timeframe.Choices = Timeframes;
 			Interval.Choices = Intervals;
+			//Set the default values of the radio buttons
+			Interval.SelectedIndex = 2;
+			Timeframe.SelectedIndex = 5;
 			CurrencyChoice.SelectedIndex = 0;
 		}
 		private void CurrencyChoice_OnSelectedIndexChanged(object sender, SelectedIndexChangedEventArgs e)

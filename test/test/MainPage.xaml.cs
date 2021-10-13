@@ -12,6 +12,7 @@ using System.IO;
 using System.Timers;
 using System.Collections.ObjectModel;
 using XF.Material.Forms.UI.Dialogs;
+using System.Collections;
 
 namespace test
 {
@@ -21,6 +22,7 @@ namespace test
         private string url = "";
         private Result selectedStock = new Result();
         public List<Result> listItems = new List<Result>();
+        private int appearingListItemIndex = 0;
         ToolbarItem item = new ToolbarItem
         {
             Text = "Delete",
@@ -29,10 +31,23 @@ namespace test
         };
         public MainPage()
         {
-            
+
             InitializeComponent();
             OnAppearing();
-            
+            //Set up the floating Action Button
+            //FloatingActionButtonAdd
+            AbsoluteLayout.SetLayoutFlags(MyAbsolute, AbsoluteLayoutFlags.All);
+            AbsoluteLayout.SetLayoutBounds(MyAbsolute, new Rectangle(0f, 0f, 1f, 1f));
+            MyAbsolute.Children.Add(itemListView);
+            FloatingActionButtonAdd.Clicked += (sender, e) =>
+            {
+                Goto_Add();
+            };
+            //Overlay the Fab Button
+            AbsoluteLayout.SetLayoutFlags(FloatingActionButtonAdd, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(FloatingActionButtonAdd, new Rectangle(1f, 1f, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            //Check if the List is Empty if so Always Show the Floating Action Button
+            itemListView.Scrolled += OnCollectionViewScrolled;
             this.ToolbarItems.Add(item);
             item.IsEnabled = false;
             Timer t = new Timer(20000);
@@ -44,16 +59,18 @@ namespace test
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-           
+            //Set the options to ensure Our Floating Action Button can disappear when not at the end of the list
+
             listItems = await App.DataBase.GetStocksAsync();
             App.listItemsDisplay = new ObservableCollection<Result>(listItems);
             itemListView.ItemsSource = App.listItemsDisplay;
-            
+
             /*
             itemListView.GroupDisplayBinding = new Binding("sector");
             itemListView.IsGroupingEnabled = true;
             */
         }
+
 
         void Handle_ItemSelected(object sender, ItemTappedEventArgs e)
         {
@@ -65,13 +82,13 @@ namespace test
                 //Check if the toolbar is already displayed
 
                 // "this" refers to a Page object
-                    item.IsEnabled = true;
-                    Result stock = (Result)e.Item;
-                    selectedStock = stock;
-                    item.Clicked += Delete_Stock;
-                    
+                item.IsEnabled = true;
+                Result stock = (Result)e.Item;
+                selectedStock = stock;
+                item.Clicked += Delete_Stock;
+                //await Shell.Current.GoToAsync($"{nameof(AddStock)}?{nameof()}");
 
-                
+
             }
         }
 
@@ -80,10 +97,10 @@ namespace test
             App.listItemsDisplay.Remove(selectedStock);
             await App.DataBase.DeleteStockAsync(selectedStock);
             item.IsEnabled = false;
-           
+
         }
 
-        void Goto_Add(object sender, EventArgs e)
+        public void Goto_Add()
         {
             App.Current.MainPage.Navigation.PushAsync(new AddStock());
         }
@@ -115,7 +132,7 @@ namespace test
                     newData.quoteResponse.result[0].sector = sectorName;
                     newData.quoteResponse.result[0].amount = AmountStock;
                     //Calculate the new allocated price
-                    newData.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(CurrencyName,App.Currency,newData.quoteResponse.result[0].ask) * AmountStock;
+                    newData.quoteResponse.result[0].allocated = await App.CurrencyConvertAsync(CurrencyName, App.Currency, newData.quoteResponse.result[0].ask) * AmountStock;
                     if (newData.quoteResponse.result[0].change > 0)
                     {
                         newData.quoteResponse.result[0].color = "Green";
@@ -135,6 +152,18 @@ namespace test
             }
         }
 
+        async void OnCollectionViewScrolled(object sender, ScrolledEventArgs e)
+        {
+
+            List_ItemAppearing();
+            Timer t2 = new Timer(4000);
+            t2.AutoReset = false;
+            t2.Elapsed += new ElapsedEventHandler(List_ItemDisappearing);
+            t2.Start();
+
+            // Custom logic
+        }
+
         async Task<Root> Populate_Item(string jsonData)
         {
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
@@ -149,6 +178,22 @@ namespace test
             inStock.quoteResponse.result[0].outputPrice = priceinString + " " + inStock.quoteResponse.result[0].currency;
             return inStock;
         }
-        
+
+        //Function to Hide the Action Button when the List Item is disappearing
+        void List_ItemDisappearing(Object source, ElapsedEventArgs e)
+        {
+            //Check the List has a minimum of 4 items and therefore hide the FAB
+            if(listItems.Count >= 4)
+            {
+                FloatingActionButtonAdd.Hide();
+            }
+            
+        }
+        //Function to Show the Action Button when the List Item is Appearing
+        void List_ItemAppearing()
+        {
+            FloatingActionButtonAdd.Show();
+
+        }
     }
 }

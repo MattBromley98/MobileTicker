@@ -4,22 +4,21 @@
 
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:fab="clr-namespace:Refractored.FabControl;assembly=Refractored.FabControl"
              Title="Tickers"
-             x:Class="test.MainPage">
+             x:Class="test.MainPage"
+             >
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add"
-                 Clicked="Goto_Add"
-                 Order="Primary"
-                 Priority="1" />
 
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout x:Name="MainLayout">
-            <ListView x:Name="itemListView" RowHeight="60" HorizontalOptions="Fill"
+        
+        <AbsoluteLayout x:Name="MyAbsolute" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        
+            <ListView x:Name="itemListView" RowHeight="67" HorizontalOptions="Fill"
 
-                          VerticalOptions="FillAndExpand" SeparatorColor="#1ba7cb"
+                          VerticalOptions="FillAndExpand" SeparatorColor="MediumPurple"
                       
                           ItemTapped="Handle_ItemSelected"
 
@@ -43,12 +42,12 @@
                                 <StackLayout Orientation="Vertical">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
 
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Text="{Binding shortName, StringFormat='{0:N}'}" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0" LineBreakMode="WordWrap">
+                                        <Label Text="{Binding shortName, StringFormat='{0:N}'}" d:LineBreakMode="TailTruncation" TextColor="{OnPlatform iOS=#808080,Android=Black}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0" LineBreakMode="WordWrap">
 
                                         </Label>
 
@@ -58,7 +57,7 @@
                                         </Label>
 
 
-                                        <Label x:Name="ChangePct" Text="{Binding change, StringFormat='Change: {0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
+                                        <Label x:Name="ChangePct" Text="{Binding change, StringFormat='{0:N} %'}" FontSize="Medium" Grid.Column="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold,Italic" TextColor="{Binding color}">
                                         </Label>
 
                                     </Grid>
@@ -76,10 +75,19 @@
 
             </ListView>
 
+            <fab:FloatingActionButtonView
+                x:Name="FloatingActionButtonAdd"
+                ImageName="additem.png"
+                ColorNormal="#6200EE"
+				IsVisible="True"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"/>
 
 
 
-        </StackLayout>
 
+        
+        </AbsoluteLayout>
+        
     </ContentPage.Content>
 </ContentPage>
