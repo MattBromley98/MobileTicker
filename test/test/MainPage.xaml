@@ -79,6 +79,7 @@
                 x:Name="FloatingActionButtonAdd"
                 ImageName="additem.png"
                 ColorNormal="#6200EE"
+                ColorPressed="#7c2eec"
 				IsVisible="True"
 				AbsoluteLayout.LayoutFlags="PositionProportional"
 				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"/>

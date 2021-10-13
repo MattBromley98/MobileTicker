@@ -13,22 +13,17 @@
     <ContentPage.Content>
 
         <ScrollView>
-        <StackLayout Margin="20">
-            <Label Text="Add a new symbol to the portfolio:"
-                VerticalOptions="Start"
-                FontSize="Large"
-                TextColor="Black"
-                HorizontalOptions="CenterAndExpand" />
-            <material:MaterialTextField x:Name="Ticker" Placeholder="Ticker Symbol" MaxLength="12" AlwaysShowUnderline="True"></material:MaterialTextField>
+            <StackLayout Margin="20">
+                
+                <material:MaterialTextField x:Name="Ticker" Placeholder="Ticker Symbol" MaxLength="12" AlwaysShowUnderline="True"></material:MaterialTextField>
             <material:MaterialTextField x:Name="Amount" Placeholder="Number of Shares Purchased" MaxLength="12" InputType="Numeric" AlwaysShowUnderline="True"></material:MaterialTextField>
             <material:MaterialTextField x:Name="Breakeven" Placeholder="Breakeven Price" AlwaysShowUnderline="True"></material:MaterialTextField>
             <Label Text="Select the corrosponding sector:"
                    FontSize="Medium"
                    TextColor="Black"></Label>
 
-
-            <material:MaterialRadioButtonGroup x:Name="Type" HorizontalOptions="Fill"></material:MaterialRadioButtonGroup>
-        </StackLayout>
+                <material:MaterialTextField x:Name="Type" HorizontalOptions="FillAndExpand" InputType="Choice"></material:MaterialTextField>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

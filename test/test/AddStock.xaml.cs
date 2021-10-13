@@ -110,7 +110,7 @@ namespace test
         {
             Root inStock = JsonConvert.DeserializeObject<Root>(jsonData);
             inStock.quoteResponse.result[0].change = ((inStock.quoteResponse.result[0].ask - inStock.quoteResponse.result[0].regularMarketPreviousClose) / inStock.quoteResponse.result[0].ask) * 100;
-            inStock.quoteResponse.result[0].sector = Type.Choices[Type.SelectedIndex];
+            inStock.quoteResponse.result[0].sector = Type.Text;
             if (inStock.quoteResponse.result[0].change <= -50)
             {
                 inStock.quoteResponse.result[0].change = 0;

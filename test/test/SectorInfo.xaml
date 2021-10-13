@@ -8,6 +8,7 @@
              BackgroundColor="LightGray">
   <!--Pages can be added as references or inline-->
     <ContentPage.Content >
+        <Grid HorizontalOptions="FillAndExpand">
     <StackLayout Orientation="Vertical"
                      Margin="16" >
             <ScrollView>
@@ -40,5 +41,8 @@
                 </StackLayout>
             </ScrollView>
     </StackLayout>
+
+            
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

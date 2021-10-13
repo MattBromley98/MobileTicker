@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace test
 {
@@ -24,17 +25,16 @@ namespace test
         public SectorInfo()
         {
             InitializeComponent();
-            OnAppearing();
-            Chart1.Chart = new DonutChart() { Entries = entries, LabelTextSize=23 };
             
-
-
+            Chart1.Chart = new DonutChart() { Entries = entries, LabelTextSize=23 };
 
         }
 
 
         public async Task Get_History()
         {
+
+
             int iterator = 0;
             foreach (List<Double> i in App.history)
             {
@@ -72,6 +72,9 @@ namespace test
             entrieshistory.Clear();
             AmountAllocated.Clear();
             App.history.Clear();
+            //First Fill the Histories
+            int MaxID = App.listItemsDisplay.Count();
+
             sectorNames = App.SectorData.Retrieve_Items();
             //Try and populate the SectorData with Relevant Sectors
             //Iterate through the Items of listItemsDisplay
@@ -109,12 +112,10 @@ namespace test
                 {
                     entries.Add(new ChartEntry(i.ValueLabel) { Label = i.Label, ValueLabel = i.ValueLabel.ToString(), Color = SKColor.Parse(i.Color), ValueLabelColor = SKColor.Parse(i.Color) });
                 }
-
-
             }
             value = (int)Math.Ceiling(value);
             PortfolioValue2.Text = Convert.ToString(value) + " " + App.Currency;
-            
+            //activityIndicator.IsRunning = false;
 
         }
             
